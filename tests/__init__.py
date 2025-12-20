@@ -1,4 +1,4 @@
 """
-Test suite for Sheldon Cooper - Autonomous Research Scientist
+Test suite for Sensei - Autonomous Research Scientist
 """
 

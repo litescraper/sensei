@@ -1,5 +1,5 @@
 """
-Main entry point for Sheldon Cooper - Autonomous Research Scientist.
+Main entry point for Sensei - Autonomous Research Scientist.
 """
 import sys
 from pathlib import Path

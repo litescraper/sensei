@@ -92,7 +92,7 @@ python run_benchmarks.py
 
 ```python
 from benchmarks.benchmark_framework import BenchmarkRunner
-from src.main import SheldonCooper
+from src.main import Sensei
 from src.config import ResearchDomain
 
 runner = BenchmarkRunner()

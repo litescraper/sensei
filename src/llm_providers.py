@@ -141,7 +141,7 @@ class LLMProvider:
             base_url="https://openrouter.ai/api/v1",
             default_headers={
                 "HTTP-Referer": kwargs.get("app_url", "https://github.com/devadigapratham/sensei"),
-                "X-Title": "Sheldon Cooper Research Scientist"
+                "X-Title": "Sensei Research Scientist"
             }
         )
     

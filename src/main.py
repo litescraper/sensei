@@ -1,7 +1,7 @@
 """
-Main orchestration script for Sheldon Cooper - Autonomous Research Scientist.
+Main orchestration script for Sensei - Autonomous Research Scientist.
 
-Sheldon Cooper is an autonomous research system that generates novel research ideas
+Sensei is an autonomous research system that generates novel research ideas
 in AI Safety, Trustworthy AI, Adversarial Machine Learning, and Jailbreaking domains
 using a comprehensive evaluation framework.
 """
@@ -36,7 +36,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class SheldonCooper:
+class Sensei:
     """
     Main orchestration class for the Autonomous Research Scientist.
     
@@ -59,7 +59,7 @@ class SheldonCooper:
         target_conference: Optional[str] = None
     ):
         """
-        Initialize Sheldon Cooper.
+        Initialize Sensei.
         
         Args:
             domain: Research domain to target
@@ -78,7 +78,7 @@ class SheldonCooper:
         self.max_idea_generation_attempts = max_idea_generation_attempts
         
         # Initialize modules
-        logger.info(f"Initializing Sheldon Cooper with domain: {domain.value}, provider: {provider}")
+        logger.info(f"Initializing Sensei with domain: {domain.value}, provider: {provider}")
         
         self.harvester = Harvester(
             domain=domain,
@@ -230,7 +230,7 @@ class SheldonCooper:
         """
         try:
             logger.info("=" * 80)
-            logger.info("SHELDON COOPER - Starting Research Pipeline")
+            logger.info("SENSEI - Starting Research Pipeline")
             logger.info("=" * 80)
             
             # Step 1: Harvest papers
@@ -375,7 +375,7 @@ def main():
             custom_queries = [line.strip() for line in f if line.strip()]
     
     # Initialize and run
-    scientist = SheldonCooper(
+    scientist = Sensei(
         domain=domain,
         custom_queries=custom_queries,
         provider=args.provider,

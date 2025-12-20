@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore", message=".*__path__.*")
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from src.main import SheldonCooper
+from src.main import Sensei
 from src.config import ResearchDomain, ModelProvider, Conference
 from src.llm_providers import AVAILABLE_MODELS
 from dotenv import load_dotenv
@@ -694,7 +694,7 @@ def run_pipeline(
                 progress_bar.progress(0.1)
                 time.sleep(0.5)
         
-        scientist = SheldonCooper(
+        scientist = Sensei(
             domain=domain,
             custom_queries=custom_queries,
             provider=provider,

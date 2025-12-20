@@ -65,7 +65,7 @@ SEMANTICSCHOLAR_API_KEY=your_semanticscholar_key
 ### 5. Verify Installation
 
 ```bash
-python -c "from src.main import SheldonCooper; print('Installation successful!')"
+python -c "from src.main import Sensei; print('Installation successful!')"
 ```
 
 ## Running the Application

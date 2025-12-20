@@ -1,5 +1,5 @@
 """
-Sheldon Cooper - Autonomous Research Scientist
+Sensei - Autonomous Research Scientist
 
 Main package for the autonomous research scientist system.
 """

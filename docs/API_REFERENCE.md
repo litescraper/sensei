@@ -2,15 +2,15 @@
 
 ## Core Classes
 
-### SheldonCooper
+### Sensei
 
 Main orchestration class for the research pipeline.
 
 ```python
-from src.main import SheldonCooper
+from src.main import Sensei
 from src.config import ResearchDomain
 
-scientist = SheldonCooper(
+scientist = Sensei(
     domain=ResearchDomain.AI_SAFETY,
     provider="google",
     model_name="gemini-3-flash-preview",

@@ -5,7 +5,7 @@ Quick demo script to showcase the Agents as a Loop and Judge mechanism.
 import os
 import sys
 from dotenv import load_dotenv
-from src.main import SheldonCooper
+from src.main import Sensei
 from src.config import ResearchDomain
 
 # Load environment variables
@@ -31,7 +31,7 @@ def main():
     print()
     
     # Initialize with a quick domain and fewer papers for demo
-    scientist = SheldonCooper(
+    scientist = Sensei(
         domain=ResearchDomain.AI_SAFETY,
         provider="google",
         model_name="gemini-2.0-flash-exp",

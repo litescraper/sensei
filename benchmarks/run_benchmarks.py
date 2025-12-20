@@ -10,7 +10,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from benchmarks.benchmark_framework import BenchmarkRunner, generate_benchmark_report
-from src.main import SheldonCooper
+from src.main import Sensei
 from src.config import ResearchDomain
 import logging
 
@@ -24,7 +24,7 @@ def run_our_system(domain: ResearchDomain = ResearchDomain.AI_SAFETY):
     
     start_gen = time.time()
     
-    scientist = SheldonCooper(
+    scientist = Sensei(
         domain=domain,
         provider="groq",
         model_name="openai/gpt-oss-120b",  # GPT OSS 120B model
