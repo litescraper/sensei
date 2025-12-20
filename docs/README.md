@@ -10,7 +10,7 @@ Complete system architecture including:
 - Data flow diagrams
 - LLM provider architecture
 - Literature search architecture
-- Lossfunk Framework flow
+- Evaluation framework flow
 
 ### [How It Works](HOW_IT_WORKS.md)
 Detailed explanation of the pipeline:
@@ -22,7 +22,7 @@ Detailed explanation of the pipeline:
 
 ### [Theory](THEORY.md)
 Theoretical foundation:
-- Lossfunk Framework philosophy
+- Evaluation framework philosophy
 - Novelty, Audacity, Feasibility requirements
 - Intersection Principle
 - Literature grounding theory

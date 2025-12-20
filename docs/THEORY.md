@@ -1,8 +1,8 @@
 # Theoretical Foundation
 
-## Core Philosophy: The Lossfunk Framework
+## Core Philosophy: The Evaluation Framework
 
-The Lossfunk Framework is a rigorous evaluation protocol designed to identify research ideas that are simultaneously **novel**, **audacious**, and **feasible**. The framework is based on the principle that impactful research must satisfy all three criteria.
+The evaluation framework is a rigorous protocol designed to identify research ideas that are simultaneously **novel**, **audacious**, and **feasible**. The framework is based on the principle that impactful research must satisfy all three criteria.
 
 ### Theoretical Basis
 
@@ -163,7 +163,7 @@ The framework is calibrated such that:
 
 ## References
 
-- Lossfunk Framework: Original evaluation protocol
+- Evaluation Framework: Comprehensive scoring protocol
 - Intersection Principle: Inspired by combinatorial creativity theory
 - Literature Grounding: Based on information retrieval theory
 - Credit Assignment: Draws from reinforcement learning literature

@@ -82,14 +82,14 @@ synthesizer = Synthesizer(
 idea = synthesizer.generate_idea(analyses)
 ```
 
-### LossfunkEvaluator
+### Evaluator
 
-Evaluates ideas using Lossfunk Framework.
+Evaluates ideas using a comprehensive evaluation framework.
 
 ```python
-from src.evaluator import LossfunkEvaluator
+from src.evaluator import Evaluator
 
-evaluator = LossfunkEvaluator(
+evaluator = Evaluator(
     provider="google",
     model_name="gemini-3-flash-preview",
     temperature=0.1
@@ -156,12 +156,12 @@ idea = ResearchIdea(
 )
 ```
 
-### LossfunkEvaluation
+### Evaluation
 
 ```python
-from src.models import LossfunkEvaluation, LossfunkScore, ValidationFeedback
+from src.models import Evaluation, Score, ValidationFeedback
 
-score = LossfunkScore(
+score = Score(
     novelty_score=2,
     audacity_score=2,
     feasibility_score=1,
@@ -173,7 +173,7 @@ score = LossfunkScore(
     cross_disciplinary_justification="..."
 )
 
-evaluation = LossfunkEvaluation(
+evaluation = Evaluation(
     score=score,
     feedback_table=[ValidationFeedback(...)],
     overall_summary="...",

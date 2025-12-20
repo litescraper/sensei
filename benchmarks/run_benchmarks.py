@@ -44,7 +44,7 @@ def run_our_system(domain: ResearchDomain = ResearchDomain.AI_SAFETY):
         
         # Parse evaluation from markdown report
         import re
-        from src.models import LossfunkScore
+        from src.models import Score
         
         # Extract scores from report
         total_match = re.search(r'Total Score:\s*(\d+)/7', content)

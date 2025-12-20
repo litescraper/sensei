@@ -7,9 +7,9 @@ from src.models import (
     Paper,
     PaperAnalysis,
     ResearchIdea,
-    LossfunkScore,
+    Score,
     ValidationFeedback,
-    LossfunkEvaluation,
+    Evaluation,
 )
 
 
@@ -82,12 +82,12 @@ class TestResearchIdea:
         assert len(idea.keywords) == 2
 
 
-class TestLossfunkScore:
-    """Test LossfunkScore model."""
+class TestScore:
+    """Test Score model."""
     
-    def test_lossfunk_score_creation(self):
-        """Test creating a LossfunkScore object."""
-        score = LossfunkScore(
+    def test_score_creation(self):
+        """Test creating a Score object."""
+        score = Score(
             novelty_score=2,
             audacity_score=2,
             feasibility_score=2,
@@ -101,11 +101,11 @@ class TestLossfunkScore:
         assert score.total_score == 7
         assert score.novelty_score <= 2
     
-    def test_lossfunk_score_validation(self):
-        """Test LossfunkScore validation."""
+    def test_score_validation(self):
+        """Test Score validation."""
         # Should raise error for invalid scores
         with pytest.raises(Exception):
-            LossfunkScore(
+            Score(
                 novelty_score=3,  # Invalid: max is 2
                 audacity_score=2,
                 feasibility_score=2,
@@ -118,12 +118,12 @@ class TestLossfunkScore:
             )
 
 
-class TestLossfunkEvaluation:
-    """Test LossfunkEvaluation model."""
+class TestEvaluation:
+    """Test Evaluation model."""
     
     def test_evaluation_creation(self):
-        """Test creating a LossfunkEvaluation object."""
-        score = LossfunkScore(
+        """Test creating an Evaluation object."""
+        score = Score(
             novelty_score=1,
             audacity_score=1,
             feasibility_score=1,
@@ -143,7 +143,7 @@ class TestLossfunkEvaluation:
             why_important="Test why"
         )
         
-        evaluation = LossfunkEvaluation(
+        evaluation = Evaluation(
             score=score,
             feedback_table=[feedback],
             overall_summary="Test summary",

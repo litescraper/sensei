@@ -11,7 +11,7 @@
 - Harvesting recent papers from arXiv across multiple research domains
 - Extracting limitations and vulnerabilities from research papers
 - Synthesizing novel research ideas by intersecting limitations
-- Evaluating ideas using the rigorous Lossfunk Framework
+- Evaluating ideas using a rigorous evaluation framework
 - Generating comprehensive research reports
 
 ## Key Features
@@ -36,7 +36,7 @@
 - **Results Dashboard**: View and download generated reports
 
 ### Rigorous Evaluation Framework
-- **Lossfunk Framework**: Strict 7-point scoring rubric
+- **7-Point Scoring Rubric**: Comprehensive evaluation across novelty, audacity, feasibility, and cross-disciplinary impact
 - **Multi-Source Literature Search**: arXiv, Google Scholar, Semantic Scholar, OpenReview
 - **Comprehensive Feedback**: Detailed scoring, thinking prompts, and de-risking experiments
 - **Novelty Validation**: Semantic similarity checking to ensure originality
@@ -117,7 +117,7 @@ The system consists of five core modules:
 └─────────────┘
        ↓
 ┌─────────────┐
-│  Evaluator  │ → Evaluates using Lossfunk Framework
+│  Evaluator  │ → Evaluates ideas using scoring rubric
 └─────────────┘
        ↓
 ┌─────────────┐
@@ -183,9 +183,9 @@ DOMAIN_CATEGORIES[ResearchDomain.YOUR_DOMAIN] = ["cs.XX", "cs.YY"]
 DOMAIN_QUERIES[ResearchDomain.YOUR_DOMAIN] = ["query 1", "query 2"]
 ```
 
-## Lossfunk Framework
+## Evaluation Framework
 
-The Lossfunk Framework evaluates ideas on four dimensions:
+The system evaluates ideas on four dimensions:
 
 1. **Novelty (0-2 points)**: Few/no related papers, substantially new framing
 2. **Audacity (0-2 points)**: Worthy of mainstream news, "I didn't realize this was possible"
@@ -222,7 +222,7 @@ See `reports/` directory for example outputs.
 │   ├── harvester.py         # Paper harvesting
 │   ├── autopsy.py           # Limitation extraction
 │   ├── synthesizer.py       # Idea generation
-│   ├── evaluator.py         # Lossfunk evaluation
+│   ├── evaluator.py         # Idea evaluation
 │   ├── reporter.py          # Report generation
 │   ├── literature_searcher.py  # Multi-source search
 │   ├── llm_providers.py     # Multi-provider LLM support
@@ -273,7 +273,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- **Lossfunk Framework**: Original evaluation protocol
+- **Evaluation Framework**: Comprehensive scoring protocol
 - **LangChain**: LLM orchestration framework
 - **arXiv**: Research paper database
 - **Streamlit**: Web UI framework

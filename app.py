@@ -609,7 +609,7 @@ def main():
             1. **Harvest** papers from arxiv in your selected domain
             2. **Extract** comprehensive analysis including methods, strengths, limitations, and solutions
             3. **Synthesize** novel research ideas by intelligently combining insights
-            4. **Evaluate** ideas using the rigorous Lossfunk Framework
+            4. **Evaluate** ideas using a comprehensive scoring framework
             5. **Generate** comprehensive research reports with detailed feedback
             
             Click the button below to start generating novel research ideas.
@@ -832,13 +832,13 @@ def display_about():
     ### About Sensei
     
     **Sensei** is an AI-powered system that autonomously generates and evaluates novel research ideas 
-    using the rigorous Lossfunk Framework.
+    using a comprehensive evaluation framework.
     
     ### Key Features
     
     - **Multi-Domain Support**: Support for any research domain via custom queries
     - **Multi-Provider LLM**: Support for 6+ AI model providers
-    - **Rigorous Evaluation**: Lossfunk Framework with 7-point scoring rubric
+    - **Rigorous Evaluation**: 7-point scoring rubric across multiple dimensions
     - **Comprehensive Literature Search**: Multi-source validation
     - **Professional UI**: Modern, user-friendly interface
     

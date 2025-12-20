@@ -10,7 +10,7 @@ from typing import Optional
 import logging
 import os
 from pathlib import Path
-from .models import ResearchIdea, LossfunkEvaluation
+from .models import ResearchIdea, Evaluation
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class Reporter:
     
     Creates comprehensive reports including:
     - Complete research idea details
-    - Lossfunk Framework evaluation scores
+    - Evaluation scores and feedback
     - Literature check results
     - Feedback and improvement suggestions
     - De-risking experiment designs
@@ -30,7 +30,7 @@ class Reporter:
     def generate_markdown_report(
         self,
         idea: ResearchIdea,
-        evaluation: LossfunkEvaluation,
+        evaluation: Evaluation,
         timestamp: Optional[datetime] = None
     ) -> str:
         """
@@ -38,7 +38,7 @@ class Reporter:
         
         Args:
             idea: ResearchIdea object
-            evaluation: LossfunkEvaluation object
+            evaluation: Evaluation object
             timestamp: Timestamp for filename (defaults to now)
         
         Returns:
@@ -78,7 +78,7 @@ class Reporter:
             "",
             "---",
             "",
-            "## Lossfunk Framework Evaluation",
+            "## Evaluation Results",
             "",
             "### Step 0: Literature Quick-Scan (Grounding)",
             "",
@@ -167,7 +167,7 @@ class Reporter:
             "",
             "## Conclusion",
             "",
-            f"This research idea {'PASSES' if evaluation.passed_threshold else 'FAILS'} the Lossfunk Framework evaluation.",
+            f"This research idea {'PASSES' if evaluation.passed_threshold else 'FAILS'} the evaluation threshold.",
             "",
             f"**Recommendation:** {'Proceed with further development' if evaluation.passed_threshold else 'Revise idea or generate new candidate'}",
         ])
@@ -178,7 +178,7 @@ class Reporter:
     def save_report(
         self,
         idea: ResearchIdea,
-        evaluation: LossfunkEvaluation,
+        evaluation: Evaluation,
         output_dir: str = "reports",
         timestamp: Optional[datetime] = None
     ) -> str:
@@ -187,7 +187,7 @@ class Reporter:
         
         Args:
             idea: ResearchIdea object
-            evaluation: LossfunkEvaluation object
+            evaluation: Evaluation object
             output_dir: Directory to save report
             timestamp: Timestamp for filename
         

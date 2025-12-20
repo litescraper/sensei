@@ -80,8 +80,8 @@ class ResearchIdea(BaseModel):
     )
 
 
-class LossfunkScore(BaseModel):
-    """Schema for Lossfunk Framework evaluation scores."""
+class Score(BaseModel):
+    """Schema for evaluation scores."""
     novelty_score: int = Field(ge=0, le=2, description="Novelty score (0-2)")
     audacity_score: int = Field(ge=0, le=2, description="Audacity score (0-2)")
     feasibility_score: int = Field(ge=0, le=2, description="Feasibility score (0-2)")
@@ -115,9 +115,9 @@ class ValidationFeedback(BaseModel):
     )
 
 
-class LossfunkEvaluation(BaseModel):
+class Evaluation(BaseModel):
     """
-    Complete evaluation result from Lossfunk Validator.
+    Complete evaluation result from Evaluator.
     
     Matches the exact template format:
     - Step 0: Literature quick-scan (grounding)
@@ -137,7 +137,7 @@ class LossfunkEvaluation(BaseModel):
     )
     
     # Step 1 & 2: Scoring
-    score: LossfunkScore
+    score: Score
     
     # Step 3: Overall summary and feedback
     overall_summary: str = Field(

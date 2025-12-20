@@ -118,7 +118,7 @@ metrics = runner.run_benchmark(
 ## Key Differentiators for ICML
 
 ### 1. **Rigorous Evaluation Framework**
-- Lossfunk Framework with strict 7-point rubric
+- Evaluation framework with strict 7-point rubric
 - Multi-source literature validation
 - Most systems lack this rigor
 
@@ -144,7 +144,7 @@ metrics = runner.run_benchmark(
 
 - **Datasets**: 5 research domains (AI Safety, CV, NLP, Robotics, Neuroscience)
 - **Runs**: 10 runs per system per domain
-- **Evaluation**: Lossfunk Framework (7-point rubric)
+- **Evaluation**: Evaluation framework (7-point rubric)
 - **Baselines**: AutoGPT, ResearchAgent, GPT-4 Assistant
 
 ### Results

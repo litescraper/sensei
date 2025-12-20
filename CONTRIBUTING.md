@@ -86,7 +86,7 @@ class MyClass:
 - **CRITICAL**: All LLM prompts must be verbose and specific
 - Never use placeholder prompts like "Analyze this"
 - Include detailed instructions and examples
-- Maintain the exact Lossfunk Framework scoring rubric
+- Maintain the exact evaluation framework scoring rubric
 
 ## Testing
 

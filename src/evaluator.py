@@ -1,5 +1,5 @@
 """
-Module 4: The Lossfunk Validator - The Critic
+Module 4: The Evaluator - The Critic
 
 Implements the exact evaluation protocol from the template:
 - Step 0: Literature quick-scan (grounding)
@@ -15,15 +15,15 @@ from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTempla
 from langchain_core.output_parsers import PydanticOutputParser
 
 from .literature_searcher import LiteratureSearcher
-from .models import ResearchIdea, LossfunkEvaluation
+from .models import ResearchIdea, Evaluation
 from .llm_providers import LLMProvider
 
 logger = logging.getLogger(__name__)
 
 
-class LossfunkEvaluator:
+class Evaluator:
     """
-    Validates research ideas using the strict Lossfunk Framework.
+    Validates research ideas using a comprehensive evaluation framework.
     
     Implements the exact evaluation protocol from the template:
     - Step 0: Literature quick-scan across multiple sources
@@ -45,7 +45,7 @@ class LossfunkEvaluator:
         semanticscholar_key: Optional[str] = None
     ):
         """
-        Initialize the Lossfunk Evaluator.
+        Initialize the Evaluator.
         
         Args:
             provider: LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
@@ -67,7 +67,7 @@ class LossfunkEvaluator:
         )
         
         # Initialize output parser
-        self.evaluation_parser = PydanticOutputParser(pydantic_object=LossfunkEvaluation)
+        self.evaluation_parser = PydanticOutputParser(pydantic_object=Evaluation)
         
         # Build the evaluation prompt matching the EXACT template format
         system_template = """You are a hard-to-please expert evaluator who LOVES audacious, high-novelty, yet feasible AI research ideas.
@@ -131,7 +131,7 @@ CRITICAL: Be strict but fair. Evaluate ideas rigorously, but:
 - Most good ideas should score 4-5/7. Exceptional ideas score 6-7/7. Only truly weak ideas should score below 4/7.
 - Remember: The goal is to identify promising research directions, not to reject everything
 
-Output your evaluation as a JSON object matching the LossfunkEvaluation schema."""
+Output your evaluation as a JSON object matching the Evaluation schema."""
         
         human_template = """–––––––––
 INPUT
@@ -161,9 +161,9 @@ LITERATURE QUICK-SCAN RESULTS
             self.human_prompt
         ])
     
-    def evaluate(self, idea: ResearchIdea) -> LossfunkEvaluation:
+    def evaluate(self, idea: ResearchIdea) -> Evaluation:
         """
-        Evaluate a research idea using the Lossfunk Framework.
+        Evaluate a research idea using the evaluation framework.
         
         Implements the complete evaluation protocol:
         - Step 0: Literature quick-scan
@@ -176,7 +176,7 @@ LITERATURE QUICK-SCAN RESULTS
             idea: ResearchIdea to evaluate
         
         Returns:
-            LossfunkEvaluation object
+            Evaluation object
         """
         try:
             # Step 0: Literature quick-scan (grounding)
@@ -298,9 +298,9 @@ LITERATURE QUICK-SCAN RESULTS
                         cross_just = "Extracted from evaluation"
                         
                         # Create a minimal valid evaluation
-                        from .models import LossfunkScore, LossfunkEvaluation, ValidationFeedback
+                        from .models import Score, Evaluation, ValidationFeedback
                         
-                        score = LossfunkScore(
+                        score = Score(
                             novelty_score=novelty_score,
                             audacity_score=audacity_score,
                             feasibility_score=feasibility_score,
@@ -312,7 +312,7 @@ LITERATURE QUICK-SCAN RESULTS
                             cross_disciplinary_justification=cross_just
                         )
                         
-                        evaluation = LossfunkEvaluation(
+                        evaluation = Evaluation(
                             score=score,
                             literature_papers=[],
                             literature_summary="JSON parsing failed, using fallback",

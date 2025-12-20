@@ -8,8 +8,8 @@ from datetime import datetime
 from src.reporter import Reporter
 from src.models import (
     ResearchIdea,
-    LossfunkEvaluation,
-    LossfunkScore,
+    Evaluation,
+    Score,
     ValidationFeedback,
 )
 
@@ -34,7 +34,7 @@ class TestReporter:
             keywords=["AI", "Safety"]
         )
         
-        score = LossfunkScore(
+        score = Score(
             novelty_score=2,
             audacity_score=2,
             feasibility_score=2,
@@ -54,7 +54,7 @@ class TestReporter:
             why_important="Test why important"
         )
         
-        evaluation = LossfunkEvaluation(
+        evaluation = Evaluation(
             score=score,
             feedback_table=[feedback],
             overall_summary="Test overall summary",
@@ -87,7 +87,7 @@ class TestReporter:
             keywords=[]
         )
         
-        score = LossfunkScore(
+        score = Score(
             novelty_score=1,
             audacity_score=1,
             feasibility_score=1,
@@ -99,7 +99,7 @@ class TestReporter:
             cross_disciplinary_justification=""
         )
         
-        evaluation = LossfunkEvaluation(
+        evaluation = Evaluation(
             score=score,
             feedback_table=[],
             overall_summary="Test",

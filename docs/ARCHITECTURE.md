@@ -54,7 +54,7 @@
 │   Evaluator   │
 │               │
 │ - Literature  │
-│ - Lossfunk    │
+│ - Scoring    │
 │ - Scoring     │
 └───────────────┘
         │
@@ -101,10 +101,10 @@
   - ICML-style output format
   - Cross-disciplinary bridging
 
-### Module 4: Evaluator (Lossfunk Framework)
+### Module 4: Evaluator
 - **Purpose**: Evaluate research ideas
 - **Input**: ResearchIdea object
-- **Output**: LossfunkEvaluation object
+- **Output**: Evaluation object
 - **Key Features**:
   - Multi-source literature search
   - 7-point scoring rubric
@@ -113,7 +113,7 @@
 
 ### Module 5: Reporter
 - **Purpose**: Generate markdown reports
-- **Input**: ResearchIdea + LossfunkEvaluation
+- **Input**: ResearchIdea + Evaluation
 - **Output**: Markdown file
 - **Key Features**:
   - Comprehensive report format
@@ -135,10 +135,10 @@ Papers → Autopsy → PaperAnalyses
 PaperAnalyses → Synthesizer → ResearchIdea
     │
     ▼
-ResearchIdea → Evaluator → LossfunkEvaluation
+ResearchIdea → Evaluator → Evaluation
     │
     ▼
-ResearchIdea + LossfunkEvaluation → Reporter → Markdown Report
+ResearchIdea + Evaluation → Reporter → Markdown Report
 ```
 
 ## LLM Provider Architecture
@@ -179,7 +179,7 @@ LiteratureSearcher
 Formatted Results → Evaluator
 ```
 
-## Lossfunk Framework Flow
+## Evaluation Framework Flow
 
 ```
 Step 0: Literature Quick-Scan

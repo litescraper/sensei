@@ -111,7 +111,7 @@ Result: 20 papers (after filtering)
 
 **Output**: "Neuro-Symbolic Adversarial Mechanistic Credit Assignment (NAM-CA): Eliminating Reward Hacking via Circuit-Level Supervision"
 
-## Stage 4: Evaluating Ideas (Lossfunk Framework)
+## Stage 4: Evaluating Ideas
 
 ### Step 0: Literature Quick-Scan
 
@@ -242,7 +242,7 @@ LLM suggests:
 
 ### Customizing Evaluation
 
-- Modify `LossfunkEvaluator` prompts
+- Modify `Evaluator` prompts
 - Adjust scoring weights
 - Add new evaluation criteria
 

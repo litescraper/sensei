@@ -9,28 +9,28 @@ __version__ = "0.1.0"
 from .harvester import Harvester
 from .autopsy import Autopsy
 from .synthesizer import Synthesizer
-from .evaluator import LossfunkEvaluator
+from .evaluator import Evaluator
 from .reporter import Reporter
 from .models import (
     Paper,
     PaperAnalysis,
     ResearchIdea,
-    LossfunkScore,
+    Score,
     ValidationFeedback,
-    LossfunkEvaluation,
+    Evaluation,
 )
 
 __all__ = [
     "Harvester",
     "Autopsy",
     "Synthesizer",
-    "LossfunkEvaluator",
+    "Evaluator",
     "Reporter",
     "Paper",
     "PaperAnalysis",
     "ResearchIdea",
-    "LossfunkScore",
+    "Score",
     "ValidationFeedback",
-    "LossfunkEvaluation",
+    "Evaluation",
 ]
 

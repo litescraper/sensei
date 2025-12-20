@@ -3,7 +3,7 @@ Main orchestration script for Sheldon Cooper - Autonomous Research Scientist.
 
 Sheldon Cooper is an autonomous research system that generates novel research ideas
 in AI Safety, Trustworthy AI, Adversarial Machine Learning, and Jailbreaking domains
-using the strict Lossfunk Framework for evaluation.
+using a comprehensive evaluation framework.
 """
 import os
 import logging
@@ -14,14 +14,14 @@ from dotenv import load_dotenv
 from .harvester import Harvester
 from .autopsy import Autopsy
 from .synthesizer import Synthesizer
-from .evaluator import LossfunkEvaluator
+from .evaluator import Evaluator
 from .reporter import Reporter
 from .config import ResearchDomain
 from .models import (
     Paper,
     PaperAnalysis,
     ResearchIdea,
-    LossfunkEvaluation,
+    Evaluation,
 )
 
 # Load environment variables
@@ -43,7 +43,7 @@ class SheldonCooper:
     1. Harvests recent research papers from arxiv
     2. Extracts limitations and vulnerabilities
     3. Synthesizes novel research ideas
-    4. Validates ideas using the Lossfunk Framework
+    4. Validates ideas using the evaluation framework
     5. Generates comprehensive research reports
     """
     
@@ -90,7 +90,7 @@ class SheldonCooper:
             model_name=model_name,
             target_conference=target_conference
         )
-        self.validator = LossfunkEvaluator(
+        self.validator = Evaluator(
             provider=provider,
             model_name=model_name,
             serpapi_key=os.getenv("SERPAPI_API_KEY"),
@@ -141,7 +141,7 @@ class SheldonCooper:
         self,
         analyses: List[PaperAnalysis],
         attempt: int = 1
-    ) -> tuple[ResearchIdea, LossfunkEvaluation]:
+    ) -> tuple[ResearchIdea, Evaluation]:
         """Step 3 & 4: Generate idea and validate it."""
         logger.info("=" * 80)
         logger.info(f"MODULE 3: SYNTHESIZER - Generating research idea (Attempt {attempt})")
@@ -155,7 +155,7 @@ class SheldonCooper:
         logger.info(f"Generated idea: {idea.title}")
         
         logger.info("=" * 80)
-        logger.info("MODULE 4: LOSSFUNK VALIDATOR - Evaluating idea")
+        logger.info("MODULE 4: EVALUATOR - Evaluating idea")
         logger.info("=" * 80)
         
         # Validate idea
