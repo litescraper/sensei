@@ -1,0 +1,125 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.log
+test-results/
+junit.xml
+
+# Reports (generated reports, but keep docs)
+reports/*.md
+!reports/.gitkeep
+benchmarks/results/*.json
+benchmarks/temp_reports/
+benchmarks/*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ChromaDB
+chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+
+# Streamlit
+.streamlit/
+.streamlit/secrets.toml
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Model files (if any)
+*.pkl
+*.h5
+*.ckpt
+*.pt
+*.pth
+models/
+
+# Data files (if any large datasets)
+data/
+datasets/
+*.csv
+*.tsv
+*.parquet
+!requirements.txt
+
+# API keys and secrets
+secrets.yaml
+secrets.json
+*.key
+*.pem
+
+# Local configuration
+config.local.py
+settings.local.py
+

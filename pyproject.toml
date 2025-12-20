@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sheldon-cooper"
+version = "0.1.0"
+description = "Autonomous Research Scientist for AI Safety Research"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Prathamesh Devadiga", email = ""}
+]
+keywords = ["ai-safety", "research", "automation", "machine-learning", "arxiv"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "langchain>=0.1.0",
+    "langchain-google-genai>=0.0.6",
+    "arxiv>=2.1.0",
+    "pymupdf>=1.23.0",
+    "pydantic>=2.5.0",
+    "python-dotenv>=1.0.0",
+    "chromadb>=0.4.22",
+    "requests>=2.31.0",
+    "google-search-results>=2.4.2",
+    "semanticscholar>=0.3.0",
+    "tiktoken>=0.5.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+    "pylint>=2.17.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/devadigapratham/sensei"
+Documentation = "https://github.com/devadigapratham/sensei#readme"
+Repository = "https://github.com/devadigapratham/sensei"
+Issues = "https://github.com/devadigapratham/sensei/issues"
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311']
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
