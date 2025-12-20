@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Autonomous Research Scientist is a five-stage pipeline that transforms raw research papers into evaluated, novel research ideas. This document explains the mechanics of each stage.
+The Autonomous Research Scientist is a six-stage pipeline that transforms raw research papers into evaluated, novel research ideas. This document explains the mechanics of each stage.
 
 ## Stage 1: Harvesting Papers
 

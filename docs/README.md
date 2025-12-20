@@ -50,7 +50,6 @@ Step-by-step installation:
 
 - [Main README](../README.md) - Project overview and quick start
 - [Contributing Guide](../CONTRIBUTING.md) - How to contribute
-- [ICML Submission Guide](../ICML_SUBMISSION_GUIDE.md) - Conference submission guide
 
 ## Reading Order
 

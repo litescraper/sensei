@@ -84,9 +84,9 @@ def main():
     logger.info("Starting benchmark comparison...")
     
     # Benchmark our system with Groq
-    logger.info("Benchmarking IDEAS system with Groq...")
+    logger.info("Benchmarking Sensei system with Groq...")
     our_metrics = runner.run_benchmark(
-        system_name="IDEAS",
+        system_name="Sensei",
         system_runner=lambda: run_our_system(ResearchDomain.AI_SAFETY),
         num_runs=3,  # Reduced for faster benchmarking
         domain="AI_SAFETY"
@@ -107,7 +107,7 @@ def main():
     
     # For now, create a comparison with just our system
     system_results = {
-        "IDEAS": our_metrics
+        "Sensei": our_metrics
     }
     
     # Generate comparison

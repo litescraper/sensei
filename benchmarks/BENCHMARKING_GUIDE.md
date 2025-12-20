@@ -99,7 +99,7 @@ runner = BenchmarkRunner()
 
 # Benchmark our system
 metrics = runner.run_benchmark(
-    system_name="IDEAS",
+    system_name="Sensei",
     system_runner=lambda: run_our_system(),
     num_runs=10,
     domain="AI_SAFETY"
@@ -110,7 +110,7 @@ metrics = runner.run_benchmark(
 
 | System | Novelty | Audacity | Feasibility | Cross-Disc | Total | Pass Rate | Efficiency |
 |--------|---------|----------|-------------|------------|-------|-----------|------------|
-| **IDEAS** (Ours) | 1.8/2.0 | 1.7/2.0 | 1.6/2.0 | 0.7/1.0 | 5.8/7.0 | 75% | 280s |
+| **Sensei** (Ours) | 1.8/2.0 | 1.7/2.0 | 1.6/2.0 | 0.7/1.0 | 5.8/7.0 | 75% | 280s |
 | AutoGPT | 1.2/2.0 | 1.0/2.0 | 1.4/2.0 | 0.3/1.0 | 3.9/7.0 | 25% | 450s |
 | ResearchAgent | 1.3/2.0 | 1.1/2.0 | 1.5/2.0 | 0.4/1.0 | 4.3/7.0 | 30% | 320s |
 | GPT-4 Assistant | 1.4/2.0 | 1.2/2.0 | 1.6/2.0 | 0.5/1.0 | 4.7/7.0 | 40% | 180s |
@@ -149,7 +149,7 @@ metrics = runner.run_benchmark(
 
 ### Results
 
-Our system (IDEAS) outperforms baselines on:
+Our system (Sensei) outperforms baselines on:
 - **Novelty**: +0.5 points average
 - **Audacity**: +0.6 points average
 - **Pass Rate**: +35% absolute improvement

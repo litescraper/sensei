@@ -103,7 +103,7 @@ Comprehensive documentation is available in the `docs/` folder:
 
 ## Architecture
 
-The system consists of five core modules:
+The system consists of six core modules with an iterative refinement loop:
 
 ```
 ┌─────────────┐
@@ -120,12 +120,21 @@ The system consists of five core modules:
        ↓
 ┌─────────────┐
 │  Evaluator  │ → Evaluates ideas using scoring rubric
+│   (Judge)   │
 └─────────────┘
        ↓
-┌─────────────┐
-│   Reporter  │ → Generates markdown reports
-└─────────────┘
+       ├─→ Pass? ──→ ┌─────────────┐
+       │            │   Reporter  │ → Generates markdown reports
+       │            └─────────────┘
+       │
+       └─→ Fail? ──→ ┌─────────────┐
+                     │   Refiner   │ → Improves idea based on feedback
+                     └─────────────┘
+                            │
+                            └─── Loop back to Evaluator (up to 2 iterations)
 ```
+
+**Agents as a Loop and Judge**: The Evaluator (Judge) provides feedback on ideas. If an idea fails evaluation, the Refiner improves it based on the feedback, and the improved idea is re-evaluated. This loop continues until the idea passes or maximum iterations are reached.
 
 ## Research Domains
 
@@ -224,7 +233,8 @@ See `reports/` directory for example outputs.
 │   ├── harvester.py         # Paper harvesting
 │   ├── autopsy.py           # Limitation extraction
 │   ├── synthesizer.py       # Idea generation
-│   ├── evaluator.py         # Idea evaluation
+│   ├── evaluator.py         # Idea evaluation (Judge)
+│   ├── refiner.py           # Idea refinement
 │   ├── reporter.py          # Report generation
 │   ├── literature_searcher.py  # Multi-source search
 │   ├── llm_providers.py     # Multi-provider LLM support

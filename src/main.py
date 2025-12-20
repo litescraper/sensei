@@ -40,12 +40,13 @@ class Sensei:
     """
     Main orchestration class for the Autonomous Research Scientist.
     
-    Named after the brilliant theoretical physicist, this system autonomously:
+    This system autonomously:
     1. Harvests recent research papers from arxiv
     2. Extracts limitations and vulnerabilities
     3. Synthesizes novel research ideas
-    4. Validates ideas using the evaluation framework
-    5. Generates comprehensive research reports
+    4. Evaluates ideas using the evaluation framework
+    5. Iteratively refines ideas using "Agents as a Loop and Judge" mechanism
+    6. Generates comprehensive research reports
     """
     
     def __init__(
