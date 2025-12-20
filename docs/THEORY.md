@@ -4,6 +4,17 @@
 
 The evaluation framework is a rigorous protocol designed to identify research ideas that are simultaneously **novel**, **audacious**, and **feasible**. The framework is based on the principle that impactful research must satisfy all three criteria.
 
+### Agents as a Loop and Judge
+
+The system implements an iterative refinement mechanism inspired by the "Agents as a Loop and Judge" pattern:
+
+1. **Generator Agent**: Creates initial research ideas
+2. **Judge Agent**: Evaluates ideas and provides detailed, actionable feedback
+3. **Refiner Agent**: Improves ideas based on judge feedback
+4. **Iterative Loop**: Judge → Refine → Judge → Refine (up to 2 iterations)
+
+This mechanism ensures that promising ideas are improved rather than discarded, leading to higher-quality research proposals.
+
 ### Theoretical Basis
 
 #### 1. Novelty Requirement

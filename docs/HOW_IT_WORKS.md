@@ -111,7 +111,32 @@ Result: 20 papers (after filtering)
 
 **Output**: "Neuro-Symbolic Adversarial Mechanistic Credit Assignment (NAM-CA): Eliminating Reward Hacking via Circuit-Level Supervision"
 
-## Stage 4: Evaluating Ideas
+## Stage 4: Evaluating Ideas (Agents as a Loop and Judge)
+
+The evaluation stage implements an iterative refinement mechanism where a **Judge** (Evaluator) evaluates ideas and a **Refiner** improves them based on feedback. This loop continues until the idea passes the evaluation threshold or maximum iterations are reached.
+
+### The Judge-Refine Loop
+
+```
+1. Generator creates initial idea
+   │
+   ▼
+2. Judge evaluates idea
+   │
+   ├─→ Passes threshold? → ✅ Done, proceed to reporting
+   │
+   └─→ Fails threshold? → Continue to refinement
+       │
+       ▼
+3. Refiner improves idea based on judge's feedback
+   │
+   ▼
+4. Judge re-evaluates refined idea
+   │
+   ├─→ Passes? → ✅ Done
+   │
+   └─→ Still fails? → Refine again (up to 2 iterations)
+```
 
 ### Step 0: Literature Quick-Scan
 
@@ -166,6 +191,39 @@ LLM generates:
 LLM suggests:
 - **Unanswered Questions**: Key unknowns
 - **De-Risking Experiments**: Concrete, actionable experiments
+
+### Step 5: Iterative Refinement (Agents as a Loop and Judge)
+
+When an idea fails the evaluation threshold, the **Refiner** agent takes over:
+
+1. **Feedback Analysis**:
+   - Extracts weaknesses from evaluation feedback table
+   - Identifies low-scoring dimensions (novelty, audacity, feasibility)
+   - Reviews thinking prompts for improvement directions
+
+2. **Idea Refinement**:
+   - Addresses each identified weakness systematically
+   - Preserves strengths of the original idea
+   - Makes concrete improvements to method, approach, or framing
+   - Focuses on improving the lowest-scoring dimensions
+
+3. **Refinement Strategy**:
+   - **Low Novelty**: Introduce new framing, combine techniques in novel ways
+   - **Low Audacity**: Increase ambition while maintaining feasibility
+   - **Low Feasibility**: Simplify approach, clarify milestones, use existing resources
+   - **Low Cross-Disciplinary**: Bridge additional fields or domains
+
+4. **Re-evaluation**:
+   - Refined idea goes back to Judge for re-evaluation
+   - Process repeats up to 2 refinement iterations
+   - Best idea across all iterations is selected
+
+### Benefits of Iterative Refinement
+
+- **Higher Success Rate**: Ideas are improved rather than discarded
+- **Targeted Improvements**: Addresses specific weaknesses identified by judge
+- **Preserves Good Ideas**: Doesn't throw away promising concepts
+- **Systematic Enhancement**: Methodical approach to idea improvement
 
 ## Stage 5: Report Generation
 

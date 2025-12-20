@@ -12,6 +12,7 @@
 - Extracting limitations and vulnerabilities from research papers
 - Synthesizing novel research ideas by intersecting limitations
 - Evaluating ideas using a rigorous evaluation framework
+- **Iteratively refining ideas** using "Agents as a Loop and Judge" mechanism
 - Generating comprehensive research reports
 
 ## Key Features
@@ -40,6 +41,7 @@
 - **Multi-Source Literature Search**: arXiv, Google Scholar, Semantic Scholar, OpenReview
 - **Comprehensive Feedback**: Detailed scoring, thinking prompts, and de-risking experiments
 - **Novelty Validation**: Semantic similarity checking to ensure originality
+- **Agents as a Loop and Judge**: Iterative refinement mechanism where ideas are improved based on judge feedback before final evaluation
 
 ## Quick Start
 

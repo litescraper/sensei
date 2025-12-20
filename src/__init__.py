@@ -10,6 +10,7 @@ from .harvester import Harvester
 from .autopsy import Autopsy
 from .synthesizer import Synthesizer
 from .evaluator import Evaluator
+from .refiner import Refiner
 from .reporter import Reporter
 from .models import (
     Paper,
@@ -25,6 +26,7 @@ __all__ = [
     "Autopsy",
     "Synthesizer",
     "Evaluator",
+    "Refiner",
     "Reporter",
     "Paper",
     "PaperAnalysis",

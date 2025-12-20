@@ -98,6 +98,30 @@ evaluator = Evaluator(
 evaluation = evaluator.evaluate(idea)
 ```
 
+### Refiner
+
+Refines research ideas based on evaluation feedback. Part of the "Agents as a Loop and Judge" mechanism.
+
+```python
+from src.refiner import Refiner
+
+refiner = Refiner(
+    provider="google",
+    model_name="gemini-3-flash-preview",
+    temperature=0.7
+)
+
+# Refine an idea based on evaluation feedback
+refined_idea = refiner.refine_idea(idea, evaluation)
+```
+
+**Key Features**:
+- Takes original idea and evaluation feedback
+- Identifies weaknesses from feedback table
+- Makes concrete improvements addressing each weakness
+- Preserves strengths of the original idea
+- Returns refined idea ready for re-evaluation
+
 ### Reporter
 
 Generates markdown reports.

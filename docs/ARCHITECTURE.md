@@ -52,11 +52,30 @@
 ┌───────────────┐
 │   Module 4    │
 │   Evaluator   │
+│   (Judge)     │
 │               │
 │ - Literature  │
-│ - Scoring    │
 │ - Scoring     │
+│ - Feedback    │
 └───────────────┘
+        │
+        ├─→ Pass? ──┐
+        │           │
+        └─→ Fail?   │
+                    │
+        ┌───────────┘
+        │
+        ▼
+┌───────────────┐
+│   Module 4b   │
+│   Refiner     │
+│               │
+│ - Improve     │
+│ - Address     │
+│ - Refine      │
+└───────────────┘
+        │
+        └─── Loop back to Evaluator (up to 2 iterations)
         │
         ▼
 ┌───────────────┐
@@ -101,15 +120,27 @@
   - ICML-style output format
   - Cross-disciplinary bridging
 
-### Module 4: Evaluator
-- **Purpose**: Evaluate research ideas
+### Module 4: Evaluator (Judge)
+- **Purpose**: Evaluate research ideas and provide detailed feedback
 - **Input**: ResearchIdea object
-- **Output**: Evaluation object
+- **Output**: Evaluation object with scores and feedback
 - **Key Features**:
   - Multi-source literature search
   - 7-point scoring rubric
   - Detailed feedback generation
   - De-risking experiments
+  - Actionable weakness identification
+
+### Module 4b: Refiner
+- **Purpose**: Iteratively improve ideas based on judge feedback
+- **Input**: ResearchIdea + Evaluation feedback
+- **Output**: Refined ResearchIdea object
+- **Key Features**:
+  - Addresses specific weaknesses identified by judge
+  - Preserves strengths of original idea
+  - Makes concrete improvements
+  - Focuses on feasibility, novelty, audacity improvements
+  - Part of "Agents as a Loop and Judge" mechanism
 
 ### Module 5: Reporter
 - **Purpose**: Generate markdown reports
@@ -132,13 +163,26 @@ Configuration → Harvester
 Papers → Autopsy → PaperAnalyses
     │
     ▼
-PaperAnalyses → Synthesizer → ResearchIdea
+PaperAnalyses → Synthesizer → ResearchIdea (Initial)
     │
     ▼
-ResearchIdea → Evaluator → Evaluation
+┌─────────────────────────────────────────────────────┐
+│         Agents as a Loop and Judge Mechanism          │
+│                                                       │
+│  ResearchIdea → Evaluator (Judge) → Evaluation        │
+│       │                    │                          │
+│       │                    ├─→ Pass? → ✅ Done        │
+│       │                    │                          │
+│       │                    └─→ Fail? → Continue      │
+│       │                                              │
+│       └─── Evaluation → Refiner → Refined Idea ────┘
+│                           │                          │
+│                           └─── Loop (max 2x) ────────┘
+│                                                       │
+└─────────────────────────────────────────────────────┘
     │
     ▼
-ResearchIdea + Evaluation → Reporter → Markdown Report
+ResearchIdea (Best) + Evaluation → Reporter → Markdown Report
 ```
 
 ## LLM Provider Architecture

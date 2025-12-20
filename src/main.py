@@ -15,6 +15,7 @@ from .harvester import Harvester
 from .autopsy import Autopsy
 from .synthesizer import Synthesizer
 from .evaluator import Evaluator
+from .refiner import Refiner
 from .reporter import Reporter
 from .config import ResearchDomain
 from .models import (
@@ -96,6 +97,7 @@ class SheldonCooper:
             serpapi_key=os.getenv("SERPAPI_API_KEY"),
             semanticscholar_key=os.getenv("SEMANTICSCHOLAR_API_KEY")
         )
+        self.refiner = Refiner(provider=provider, model_name=model_name)
         self.reporter = Reporter()
     
     def harvest_papers(self) -> List[Paper]:
@@ -140,9 +142,18 @@ class SheldonCooper:
     def generate_and_validate_idea(
         self,
         analyses: List[PaperAnalysis],
-        attempt: int = 1
+        attempt: int = 1,
+        refine_iterations: int = 2
     ) -> tuple[ResearchIdea, Evaluation]:
-        """Step 3 & 4: Generate idea and validate it."""
+        """
+        Step 3 & 4: Generate idea and validate it with iterative refinement.
+        
+        Implements "Agents as a Loop and Judge" mechanism:
+        1. Generator creates initial idea
+        2. Judge evaluates and provides feedback
+        3. Refiner improves idea based on feedback
+        4. Loop continues until idea passes or max iterations
+        """
         logger.info("=" * 80)
         logger.info(f"MODULE 3: SYNTHESIZER - Generating research idea (Attempt {attempt})")
         logger.info("=" * 80)
@@ -150,21 +161,62 @@ class SheldonCooper:
         if not analyses:
             raise ValueError("No paper analyses available for idea generation")
         
-        # Generate idea
+        # Step 1: Generate initial idea
         idea = self.synthesizer.generate_idea(analyses, attempt)
-        logger.info(f"Generated idea: {idea.title}")
+        logger.info(f"Generated initial idea: {idea.title}")
         
-        logger.info("=" * 80)
-        logger.info("MODULE 4: EVALUATOR - Evaluating idea")
-        logger.info("=" * 80)
+        best_idea = idea
+        best_evaluation = None
+        best_score = -1
         
-        # Validate idea
-        evaluation = self.validator.evaluate(idea)
+        # Step 2-4: Judge-Refine Loop
+        for iteration in range(refine_iterations + 1):  # +1 for initial evaluation
+            logger.info("=" * 80)
+            if iteration == 0:
+                logger.info("MODULE 4: EVALUATOR (Judge) - Initial evaluation")
+            else:
+                logger.info(f"MODULE 4: EVALUATOR (Judge) - Evaluation iteration {iteration}")
+            logger.info("=" * 80)
+            
+            # Judge evaluates the idea
+            evaluation = self.validator.evaluate(idea)
+            
+            logger.info(f"Evaluation Score: {evaluation.score.total_score}/7")
+            logger.info(f"Passed Threshold: {evaluation.passed_threshold}")
+            
+            # Track best idea
+            if evaluation.score.total_score > best_score:
+                best_score = evaluation.score.total_score
+                best_idea = idea
+                best_evaluation = evaluation
+            
+            # If passed, we're done
+            if evaluation.passed_threshold:
+                logger.info(f"Idea passed threshold after {iteration} refinement iteration(s)")
+                return idea, evaluation
+            
+            # If not last iteration, refine the idea
+            if iteration < refine_iterations:
+                logger.info("=" * 80)
+                logger.info(f"REFINER - Improving idea based on judge feedback (Iteration {iteration + 1})")
+                logger.info("=" * 80)
+                
+                try:
+                    # Refiner improves the idea based on judge feedback
+                    refined_idea = self.refiner.refine_idea(idea, evaluation)
+                    logger.info(f"Refined idea: {refined_idea.title}")
+                    idea = refined_idea
+                except Exception as e:
+                    logger.error(f"Error refining idea: {e}")
+                    logger.warning("Continuing with original idea...")
+                    break
         
-        logger.info(f"Evaluation Score: {evaluation.score.total_score}/7")
-        logger.info(f"Passed Threshold: {evaluation.passed_threshold}")
-        
-        return idea, evaluation
+        # Return best idea found
+        if best_evaluation:
+            logger.info(f"Best idea found with score {best_score}/7")
+            return best_idea, best_evaluation
+        else:
+            return idea, evaluation
     
     def run(self, output_dir: str = "reports") -> Optional[str]:
         """
