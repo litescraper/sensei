@@ -289,7 +289,7 @@ If you use this system in your research, please cite:
 ```bibtex
 @software{sensei2025,
   title={Sensei: Autonomous Research Scientist},
-  author={Devadiga, Prathamesh},
+  author={Prathamesh Devadiga},
   year={2025},
   url={https://github.com/devadigapratham/sensei}
 }
