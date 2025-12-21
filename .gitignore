@@ -52,9 +52,9 @@ junit.xml
 # Reports (generated reports, but keep docs)
 reports/*.md
 !reports/.gitkeep
-benchmarks/results/*.json
-benchmarks/temp_reports/
-benchmarks/*.log
+
+# Benchmarks (exclude entire folder)
+benchmarks/
 
 # Generated projects (code generator output)
 generated_projects/
