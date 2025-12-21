@@ -253,7 +253,7 @@ Based on the above analyses, generate a novel research idea that:
             # Add feedback from previous attempts if available
             failure_feedback = ""
             failure_instructions = ""
-            if self.last_feedback and attempt > 1:
+            if self.last_feedback:
                 failure_feedback = f"""
 PREVIOUS ATTEMPT FEEDBACK:
 The previous idea scored {self.last_feedback['total_score']}/7 and failed feasibility evaluation.

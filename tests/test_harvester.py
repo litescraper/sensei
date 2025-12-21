@@ -13,10 +13,11 @@ class TestHarvester:
     
     def test_harvester_initialization(self):
         """Test Harvester initialization."""
-        harvester = Harvester(max_results_per_query=10)
+        from src.config import ResearchDomain
+        harvester = Harvester(domain=ResearchDomain.AI_SAFETY, max_results_per_query=10)
         assert harvester.max_results_per_query == 10
-        assert len(harvester.QUERIES) == 5
-        assert "cs.CR" in harvester.CATEGORIES
+        assert harvester.domain == ResearchDomain.AI_SAFETY
+        assert len(harvester.queries) > 0
     
     @patch('src.harvester.arxiv.Search')
     def test_search_arxiv(self, mock_search):
@@ -40,7 +41,8 @@ class TestHarvester:
         mock_search_instance.results.return_value = [mock_result]
         mock_search.return_value = mock_search_instance
         
-        harvester = Harvester()
+        from src.config import ResearchDomain
+        harvester = Harvester(domain=ResearchDomain.AI_SAFETY)
         papers = harvester.search_arxiv("test query", max_results=1)
         
         assert len(papers) == 1
@@ -64,7 +66,8 @@ class TestHarvester:
         mock_search_instance.results.return_value = [mock_result]
         mock_search.return_value = mock_search_instance
         
-        harvester = Harvester()
+        from src.config import ResearchDomain
+        harvester = Harvester(domain=ResearchDomain.AI_SAFETY)
         papers = harvester.search_arxiv("test query", max_results=1)
         
         # Old paper should be filtered out
@@ -72,7 +75,8 @@ class TestHarvester:
     
     def test_harvest_all(self):
         """Test harvesting all papers."""
-        harvester = Harvester()
+        from src.config import ResearchDomain
+        harvester = Harvester(domain=ResearchDomain.AI_SAFETY)
         # This will make actual API calls, so we'll just test the structure
-        assert len(harvester.QUERIES) > 0
+        assert len(harvester.queries) > 0
 

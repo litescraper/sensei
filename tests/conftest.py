@@ -10,6 +10,7 @@ from unittest.mock import patch
 def mock_env_vars(monkeypatch):
     """Mock environment variables for testing."""
     monkeypatch.setenv("GOOGLE_API_KEY", "test_google_key")
+    monkeypatch.setenv("GROQ_API_KEY", "test_groq_key")
     monkeypatch.setenv("SERPAPI_API_KEY", "test_serpapi_key")
     monkeypatch.setenv("SEMANTICSCHOLAR_API_KEY", "test_s2_key")
 

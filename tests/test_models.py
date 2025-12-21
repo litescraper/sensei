@@ -49,6 +49,8 @@ class TestPaperAnalysis:
         """Test creating a PaperAnalysis object."""
         analysis = PaperAnalysis(
             paper_title="Test Paper",
+            main_contribution="Test contribution",
+            methodology="Test methodology",
             limitations=["Limitation 1", "Limitation 2"],
             future_work=["Future work 1"],
             vulnerabilities=["Vulnerability 1"]
@@ -56,10 +58,16 @@ class TestPaperAnalysis:
         assert len(analysis.limitations) == 2
         assert len(analysis.future_work) == 1
         assert analysis.paper_title == "Test Paper"
+        assert analysis.main_contribution == "Test contribution"
+        assert analysis.methodology == "Test methodology"
     
     def test_paper_analysis_empty_lists(self):
         """Test PaperAnalysis with empty lists."""
-        analysis = PaperAnalysis(paper_title="Test")
+        analysis = PaperAnalysis(
+            paper_title="Test",
+            main_contribution="Test contribution",
+            methodology="Test methodology"
+        )
         assert analysis.limitations == []
         assert analysis.future_work == []
         assert analysis.vulnerabilities == []
