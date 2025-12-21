@@ -1,9 +1,3 @@
-"""
-Comprehensive Literature Searcher
-
-Searches multiple sources: arXiv, Google Scholar, Semantic Scholar, and OpenReview
-to find papers closest to a research idea.
-"""
 import os
 import logging
 from typing import List, Dict, Optional, Tuple
@@ -17,8 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 class LiteraturePaper:
-    """Represents a paper found in literature search."""
-    
     def __init__(
         self,
         title: str,
@@ -36,7 +28,6 @@ class LiteraturePaper:
         self.year = year
     
     def __str__(self) -> str:
-        """Format paper for literature list (JSON-safe)."""
         paper_id_str = f"[{self.paper_id}]" if self.paper_id else "[No ID]"
         reason = f" - {self.relevance_reason}" if self.relevance_reason else ""  # Use regular dash, not em dash
         # Sanitize for JSON: remove newlines, escape quotes
@@ -46,8 +37,6 @@ class LiteraturePaper:
 
 
 class LiteratureSearcher:
-    """
-    Comprehensive literature searcher for multiple academic sources.
     
     Implements Step 0 of the evaluation protocol: Literature quick-scan (grounding)
     """
@@ -57,13 +46,6 @@ class LiteratureSearcher:
         serpapi_key: Optional[str] = None,
         semanticscholar_key: Optional[str] = None
     ):
-        """
-        Initialize the literature searcher.
-        
-        Args:
-            serpapi_key: SerpAPI key for Google Scholar search
-            semanticscholar_key: Semantic Scholar API key (optional)
-        """
         self.serpapi_key = serpapi_key or os.getenv("SERPAPI_API_KEY")
         self.semanticscholar_key = semanticscholar_key or os.getenv("SEMANTICSCHOLAR_API_KEY")
         
@@ -74,16 +56,6 @@ class LiteratureSearcher:
             logger.warning("Semantic Scholar API key not provided. Semantic Scholar search will be limited.")
     
     def search_arxiv(self, query: str, max_results: int = 10) -> List[LiteraturePaper]:
-        """
-        Search arXiv for papers.
-        
-        Args:
-            query: Search query
-            max_results: Maximum number of results
-        
-        Returns:
-            List of LiteraturePaper objects
-        """
         papers = []
         try:
             logger.info(f"Searching arXiv with query: {query}")
@@ -111,16 +83,6 @@ class LiteratureSearcher:
         return papers
     
     def search_google_scholar(self, query: str, max_results: int = 10) -> List[LiteraturePaper]:
-        """
-        Search Google Scholar via SerpAPI.
-        
-        Args:
-            query: Search query
-            max_results: Maximum number of results
-        
-        Returns:
-            List of LiteraturePaper objects
-        """
         papers = []
         
         if not self.serpapi_key:
@@ -169,16 +131,6 @@ class LiteratureSearcher:
         return papers
     
     def search_semantic_scholar(self, query: str, max_results: int = 10) -> List[LiteraturePaper]:
-        """
-        Search Semantic Scholar.
-        
-        Args:
-            query: Search query
-            max_results: Maximum number of results
-        
-        Returns:
-            List of LiteraturePaper objects
-        """
         papers = []
         
         if not self.s2_client:
@@ -210,16 +162,6 @@ class LiteratureSearcher:
         return papers
     
     def search_openreview(self, query: str, max_results: int = 10) -> List[LiteraturePaper]:
-        """
-        Search OpenReview using web search (no public API available).
-        
-        Args:
-            query: Search query
-            max_results: Maximum number of results
-        
-        Returns:
-            List of LiteraturePaper objects
-        """
         papers = []
         
         if not self.serpapi_key:
@@ -271,17 +213,6 @@ class LiteratureSearcher:
         idea_keywords: List[str],
         max_results_per_source: int = 10
     ) -> Tuple[List[LiteraturePaper], str]:
-        """
-        Perform comprehensive literature search across all sources.
-        
-        Args:
-            idea_title: Title of the research idea
-            idea_keywords: List of keywords from the idea
-            max_results_per_source: Maximum results per source
-        
-        Returns:
-            Tuple of (list of papers, formatted string for evaluation)
-        """
         query = f"{idea_title} {' '.join(idea_keywords[:5])}"
         
         all_papers = []

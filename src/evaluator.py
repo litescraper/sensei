@@ -1,13 +1,3 @@
-"""
-Module 4: The Evaluator - The Critic
-
-Implements the exact evaluation protocol from the template:
-- Step 0: Literature quick-scan (grounding)
-- Step 1: Score the idea with rubric
-- Step 2: Total score
-- Step 3: Overall summary and Feedback
-- Step 4: Unanswered Questions and De-risking experiments
-"""
 import os
 from typing import Optional
 import logging
@@ -22,9 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 class Evaluator:
-    """Validates research ideas using a comprehensive evaluation framework."""
-    
-    # Minimum score threshold to pass
     MIN_PASSING_SCORE = 5
     
     def __init__(
@@ -35,16 +22,6 @@ class Evaluator:
         serpapi_key: Optional[str] = None,
         semanticscholar_key: Optional[str] = None
     ):
-        """
-        Initialize the Evaluator.
-        
-        Args:
-            provider: LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
-            model_name: Specific model name (defaults to provider's best model)
-            temperature: Temperature for LLM generation (default: 0.1 for strict evaluation)
-            serpapi_key: SerpAPI key for Google Search
-            semanticscholar_key: Semantic Scholar API key
-        """
         self.llm = LLMProvider.create_llm(
             provider=provider,
             model_name=model_name,
@@ -153,22 +130,6 @@ LITERATURE QUICK-SCAN RESULTS
         ])
     
     def evaluate(self, idea: ResearchIdea) -> Evaluation:
-        """
-        Evaluate a research idea using the evaluation framework.
-        
-        Implements the complete evaluation protocol:
-        - Step 0: Literature quick-scan
-        - Step 1: Scoring with rubric
-        - Step 2: Total score
-        - Step 3: Overall summary and feedback
-        - Step 4: Unanswered questions and de-risking experiments
-        
-        Args:
-            idea: ResearchIdea to evaluate
-        
-        Returns:
-            Evaluation object
-        """
         try:
             # Step 0: Literature quick-scan (grounding)
             logger.info("Step 0: Performing literature quick-scan...")

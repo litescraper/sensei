@@ -1,6 +1,3 @@
-"""
-Pydantic models for strict schema validation.
-"""
 from typing import List, Optional
 from datetime import datetime
 from pydantic import BaseModel, Field
@@ -20,7 +17,6 @@ class Paper(BaseModel):
 
 
 class PaperAnalysis(BaseModel):
-    """Schema for comprehensive paper analysis including methods, strengths, limitations, and solutions."""
     # What the paper does
     main_contribution: str = Field(
         description="The main contribution or what this paper does"

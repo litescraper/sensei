@@ -1,8 +1,3 @@
-"""
-Code Generator - Research Project Generator
-
-Generates complete research project code when an idea passes evaluation.
-"""
 import os
 import logging
 from pathlib import Path
@@ -154,17 +149,6 @@ IMPORTANT: Output ONLY valid JSON. Start with {{ and end with }}. Include all co
         evaluation: Evaluation,
         project_name: Optional[str] = None
     ) -> Dict[str, Any]:
-        """
-        Generate complete research project code.
-        
-        Args:
-            idea: Approved research idea
-            evaluation: Evaluation result
-            project_name: Name for the project (default: sanitized idea title)
-        
-        Returns:
-            Dictionary with project structure and files
-        """
         logger.info("Generating complete research project code...")
         
         if project_name is None:
@@ -251,18 +235,6 @@ IMPORTANT: Output ONLY valid JSON. Start with {{ and end with }}. Include all co
         output_dir: str = "generated_projects",
         project_name: Optional[str] = None
     ) -> str:
-        """
-        Save generated project to disk.
-        
-        Args:
-            project_data: Generated project data from LLM
-            idea: Research idea
-            output_dir: Base output directory
-            project_name: Project name (default: sanitized title)
-        
-        Returns:
-            Path to generated project directory
-        """
         if project_name is None:
             project_name = "".join(c for c in idea.title if c.isalnum() or c in (' ', '-', '_')).rstrip()
             project_name = project_name.replace(' ', '_').lower()[:50]

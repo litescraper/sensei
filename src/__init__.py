@@ -1,9 +1,3 @@
-"""
-Sensei - Autonomous Research Scientist
-
-Main package for the autonomous research scientist system.
-"""
-
 __version__ = "0.1.0"
 
 from .harvester import Harvester

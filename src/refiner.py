@@ -1,12 +1,3 @@
-"""
-Refinement Agent - Refines ideas based on judge feedback.
-
-Part of the "Agents as a Loop and Judge" mechanism where:
-1. Generator creates initial idea
-2. Judge evaluates and provides feedback
-3. Refiner improves the idea based on feedback
-4. Loop continues until idea passes or max iterations
-"""
 from typing import Optional
 import logging
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
@@ -19,22 +10,12 @@ logger = logging.getLogger(__name__)
 
 
 class Refiner:
-    """Refines research ideas based on evaluation feedback."""
-    
     def __init__(
         self,
         provider: str = "google",
         model_name: Optional[str] = None,
         temperature: float = 0.7
     ):
-        """
-        Initialize the Refiner.
-        
-        Args:
-            provider: LLM provider
-            model_name: Model name
-            temperature: Temperature for refinement (default: 0.7 for balanced creativity)
-        """
         self.llm = LLMProvider.create_llm(
             provider=provider,
             model_name=model_name,
@@ -115,16 +96,6 @@ Output the REFINED idea as a JSON object matching the ResearchIdea schema.
         ])
     
     def refine_idea(self, idea: ResearchIdea, evaluation: Evaluation) -> ResearchIdea:
-        """
-        Refine an idea based on evaluation feedback.
-        
-        Args:
-            idea: Original ResearchIdea
-            evaluation: Evaluation feedback from judge
-            
-        Returns:
-            Refined ResearchIdea
-        """
         try:
             logger.info("Refining idea based on evaluation feedback...")
             

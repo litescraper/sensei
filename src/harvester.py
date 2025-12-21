@@ -1,10 +1,3 @@
-"""
-Module 1: The Harvester - Advanced Data Pipeline
-
-Fetches high-signal papers from arxiv, excluding noise.
-Implements strict filtering by publication date and category.
-Supports multiple research domains.
-"""
 import arxiv
 from datetime import datetime, timezone
 from typing import List, Optional
@@ -58,17 +51,6 @@ class Harvester:
         max_results: Optional[int] = None,
         categories: Optional[List[str]] = None
     ) -> List[Paper]:
-        """
-        Search arxiv for papers matching the query.
-        
-        Args:
-            query: Search query string
-            max_results: Maximum number of results (defaults to instance setting)
-            categories: List of categories to filter (defaults to instance categories)
-        
-        Returns:
-            List of Paper objects
-        """
         if max_results is None:
             max_results = self.max_results_per_query
         if categories is None:
@@ -140,12 +122,6 @@ class Harvester:
         return papers
     
     def harvest_all(self) -> List[Paper]:
-        """
-        Harvest papers using domain-specific queries.
-        
-        Returns:
-            List of unique Paper objects (deduplicated by arxiv_id)
-        """
         all_papers = []
         seen_ids = set()
         
@@ -168,16 +144,6 @@ class Harvester:
         return all_papers
     
     def filter_by_citation_velocity(self, papers: List[Paper]) -> List[Paper]:
-        """
-        Optional filter: Keep only papers with citation velocity > threshold.
-        Note: This requires external API calls to Semantic Scholar.
-        
-        Args:
-            papers: List of papers to filter
-        
-        Returns:
-            Filtered list of papers
-        """
         # This would require Semantic Scholar API integration
         # For now, return all papers
         # TODO: Implement citation velocity filtering if needed

@@ -1,8 +1,3 @@
-"""
-Streamlit Web UI for Autonomous Research Scientist
-
-Modern, professional, visually stunning interface.
-"""
 import streamlit as st
 import os
 import sys

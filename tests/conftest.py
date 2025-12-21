@@ -1,6 +1,3 @@
-"""
-Pytest configuration and fixtures.
-"""
 import pytest
 import os
 from unittest.mock import patch

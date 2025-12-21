@@ -1,12 +1,8 @@
-"""
-Configuration module for research domains and model providers.
-"""
 from typing import Dict, List, Optional
 from enum import Enum
 
 
 class ResearchDomain(Enum):
-    """Supported research domains."""
     AI_SAFETY = "AI Safety, Trustworthy AI, Adversarial ML, Jailbreaking"
     COMPUTER_VISION = "Computer Vision, Image Recognition, Object Detection"
     NLP = "Natural Language Processing, Language Models, Text Generation"
@@ -32,7 +28,6 @@ class ResearchDomain(Enum):
 
 
 class ModelProvider(Enum):
-    """Supported model providers."""
     GOOGLE_GEMINI = "google"
     ANTHROPIC_CLAUDE = "anthropic"
     OPENROUTER = "openrouter"

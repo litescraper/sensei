@@ -1,7 +1,3 @@
-"""
-Module 3: The Synthesizer - The Inventor
-Generates novel research ideas by intersecting limitations.
-"""
 from typing import List, Optional
 import logging
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
@@ -22,15 +18,6 @@ class Synthesizer:
         temperature: float = 0.8,
         target_conference: Optional[str] = None
     ):
-        """
-        Initialize the Synthesizer with configurable LLM backend.
-        
-        Args:
-            provider: LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
-            model_name: Specific model name (defaults to provider's best model)
-            temperature: Temperature for LLM generation (default: 0.8 for creativity)
-            target_conference: Target conference name for idea generation
-        """
         self.target_conference = target_conference
         self.llm = LLMProvider.create_llm(
             provider=provider,
@@ -157,17 +144,6 @@ Based on the above analyses, generate a novel research idea that:
         ])
     
     def _flatten_analyses(self, analyses: List[PaperAnalysis]) -> str:
-        """
-        Flatten PaperAnalysis objects into a comprehensive knowledge context string.
-        
-        Includes what papers do, their methods, strengths, limitations, and solutions.
-        
-        Args:
-            analyses: List of PaperAnalysis objects
-        
-        Returns:
-            Formatted knowledge context string
-        """
         context_parts = []
         
         for i, analysis in enumerate(analyses, 1):
@@ -232,15 +208,6 @@ Based on the above analyses, generate a novel research idea that:
         return "\n".join(context_parts)
     
     def generate_idea(self, analyses: List[PaperAnalysis]) -> ResearchIdea:
-        """
-        Generate a research idea from paper analyses.
-        
-        Args:
-            analyses: List of PaperAnalysis objects
-        
-        Returns:
-            ResearchIdea object
-        """
         try:
             # Flatten analyses into knowledge context
             knowledge_context = self._flatten_analyses(analyses)

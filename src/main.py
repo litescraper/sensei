@@ -1,10 +1,3 @@
-"""
-Main orchestration script for Sensei - Autonomous Research Scientist.
-
-Sensei is an autonomous research system that generates novel research ideas
-in AI Safety, Trustworthy AI, Adversarial Machine Learning, and Jailbreaking domains
-using a comprehensive evaluation framework.
-"""
 import os
 import logging
 from datetime import datetime
@@ -38,8 +31,6 @@ logger = logging.getLogger(__name__)
 
 
 class Sensei:
-    """Main orchestration class for the Autonomous Research Scientist."""
-    
     def __init__(
         self,
         domain: ResearchDomain = ResearchDomain.AI_SAFETY,
@@ -50,18 +41,6 @@ class Sensei:
         max_idea_generation_attempts: int = 3,
         target_conference: Optional[str] = None
     ):
-        """
-        Initialize Sensei.
-        
-        Args:
-            domain: Research domain to target
-            custom_queries: Custom search queries (overrides domain defaults)
-            provider: LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
-            model_name: Model name (defaults to provider's best model)
-            max_papers_to_analyze: Maximum number of papers to analyze
-            max_idea_generation_attempts: Maximum attempts to generate passing idea
-            target_conference: Target conference name (e.g., "NeurIPS", "ICLR")
-        """
         self.target_conference = target_conference
         self.domain = domain
         self.provider = provider

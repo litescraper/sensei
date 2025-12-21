@@ -1,6 +1,3 @@
-"""
-Multi-provider LLM support for various AI models and inference providers.
-"""
 import os
 from typing import Optional
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -45,18 +42,6 @@ class LLMProvider:
         temperature: float = 0.1,
         **kwargs
     ) -> BaseChatModel:
-        """
-        Create an LLM instance from the specified provider.
-        
-        Args:
-            provider: Provider name ("google", "anthropic", "openai", "openrouter", "groq", "together")
-            model_name: Model name (defaults to provider's best model)
-            temperature: Temperature for generation
-            **kwargs: Additional provider-specific arguments
-        
-        Returns:
-            BaseChatModel instance
-        """
         provider_lower = provider.lower()
         
         if provider_lower == "google":

@@ -1,8 +1,4 @@
-"""
-Module 2: The Autopsy - Intelligent Extraction
-Extracts "admission of failure" from papers.
-"""
-import fitz  # PyMuPDF
+import fitz
 import requests
 from typing import Optional
 import logging
@@ -25,14 +21,6 @@ class Autopsy:
         model_name: Optional[str] = None,
         temperature: float = 0.1
     ):
-        """
-        Initialize the Autopsy with configurable LLM backend.
-        
-        Args:
-            provider: LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
-            model_name: Specific model name (defaults to provider's best model)
-            temperature: Temperature for LLM generation (default: 0.1 for consistency)
-        """
         self.llm = LLMProvider.create_llm(
             provider=provider,
             model_name=model_name,
@@ -148,17 +136,6 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
             return None
     
     def extract_limitations(self, paper: Paper, paper_text: Optional[str] = None, max_retries: int = 3) -> Optional[PaperAnalysis]:
-        """
-        Extract limitations from a paper using LLM.
-        
-        Args:
-            paper: Paper object with metadata
-            paper_text: Pre-extracted text (if None, will download and parse)
-            max_retries: Maximum number of retries for API quota errors
-        
-        Returns:
-            PaperAnalysis object or None if extraction failed
-        """
         import time
         import re
         
