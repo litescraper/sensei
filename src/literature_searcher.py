@@ -145,12 +145,10 @@ class LiteratureSearcher:
                 snippet = result.get("snippet", "")
                 link = result.get("link", "")
                 
-                # Extract year if available
                 year = None
                 if "publication_info" in result:
                     pub_info = result["publication_info"]
                     if "summary" in pub_info:
-                        # Try to extract year from summary
                         import re
                         year_match = re.search(r'\b(19|20)\d{2}\b', pub_info["summary"])
                         if year_match:
@@ -213,9 +211,7 @@ class LiteratureSearcher:
     
     def search_openreview(self, query: str, max_results: int = 10) -> List[LiteraturePaper]:
         """
-        Search OpenReview (web scraping approach).
-        
-        Note: OpenReview doesn't have a public API, so this uses web search.
+        Search OpenReview using web search (no public API available).
         
         Args:
             query: Search query
@@ -251,7 +247,6 @@ class LiteratureSearcher:
                 snippet = result.get("snippet", "")
                 link = result.get("link", "")
                 
-                # Extract paper ID from URL if possible
                 paper_id = None
                 if "openreview.net/forum?id=" in link:
                     paper_id = link.split("id=")[-1].split("&")[0]
@@ -287,7 +282,6 @@ class LiteratureSearcher:
         Returns:
             Tuple of (list of papers, formatted string for evaluation)
         """
-        # Build search query
         query = f"{idea_title} {' '.join(idea_keywords[:5])}"
         
         all_papers = []
@@ -308,7 +302,6 @@ class LiteratureSearcher:
         # Sort by recency (prefer recent papers as per template)
         all_papers.sort(key=lambda p: p.year or 0, reverse=True)
         
-        # Format results as per template: "[PaperID] Title – why it matters (≤ 15 words)"
         formatted_results = []
         seen_titles = set()
         
@@ -319,7 +312,6 @@ class LiteratureSearcher:
                 continue
             seen_titles.add(title_lower)
             
-            # Format as per template
             paper_id_str = f"[{paper.paper_id}]" if paper.paper_id else "[No ID]"
             reason = paper.relevance_reason or "Relevant to research idea"
             # Limit reason to 15 words

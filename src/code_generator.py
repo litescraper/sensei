@@ -1,8 +1,7 @@
 """
-Module 6: Code Generator - Research Project Generator
+Code Generator - Research Project Generator
 
-Generates complete, working research project code when an idea passes evaluation.
-Includes experiments, architecture, benchmarks, ablations, and all components needed for a paper.
+Generates complete research project code when an idea passes evaluation.
 """
 import os
 import logging
@@ -18,20 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class CodeGenerator:
-    """
-    Generates complete research project code for approved ideas.
-    
-    Creates:
-    - Model/architecture implementation
-    - Training scripts
-    - Evaluation scripts
-    - Experiment infrastructure
-    - Benchmark code
-    - Ablation study code
-    - Configuration files
-    - README and documentation
-    - Requirements file
-    """
+    """Generates complete research project code for approved ideas."""
     
     def __init__(
         self,
@@ -45,7 +31,7 @@ class CodeGenerator:
         Args:
             provider: LLM provider
             model_name: Model name
-            temperature: Temperature for code generation (default: 0.3 for more deterministic code)
+            temperature: Temperature for code generation
         """
         self.llm = LLMProvider.create_llm(
             provider=provider,
@@ -53,18 +39,17 @@ class CodeGenerator:
             temperature=temperature
         )
         
-        # Build code generation prompt
-        system_template = """You are an expert research engineer specializing in generating complete, production-ready research codebases for machine learning papers.
+        system_template = """You are an expert research engineer specializing in generating complete research codebases.
 
-Your task is to generate a complete, working research project implementation based on a research idea that has been approved by an evaluation system.
+Generate a complete, working research project implementation based on a research idea that has been approved by an evaluation system.
 
-CRITICAL REQUIREMENTS:
-1. **Complete Implementation**: Generate ALL necessary code files for a research project
-2. **Working Code**: All code must be runnable and follow best practices
-3. **Paper-Ready**: Include experiments, benchmarks, ablations, and evaluation code
-4. **Well-Structured**: Follow standard ML research project structure
-5. **Documented**: Include docstrings, comments, and README
-6. **Reproducible**: Include configuration files, seeds, and clear instructions
+Requirements:
+1. Generate all necessary code files for a research project
+2. All code must be runnable and follow best practices
+3. Include experiments, benchmarks, ablations, and evaluation code
+4. Follow standard ML research project structure
+5. Include docstrings, comments, and README
+6. Include configuration files, seeds, and clear instructions
 
 PROJECT STRUCTURE TO GENERATE:
 ```
@@ -90,38 +75,18 @@ project_name/
 └── setup.py             # Setup script (optional)
 ```
 
-CODE GENERATION GUIDELINES:
-1. Use PyTorch or TensorFlow (specify which)
-2. Include proper error handling
-3. Add logging throughout
-4. Use configuration files (YAML) for hyperparameters
-5. Include data loading utilities
-6. Add evaluation metrics
-7. Include visualization/plotting code
-8. Add checkpoint saving/loading
-9. Include seed setting for reproducibility
-10. Add command-line argument parsing
-
-EXPERIMENT CODE REQUIREMENTS:
+Guidelines:
+- Use PyTorch or TensorFlow
+- Include error handling and logging
+- Use YAML configs for hyperparameters
+- Include data loading, evaluation metrics, visualization
+- Add checkpoint saving/loading
+- Include seed setting for reproducibility
+- Add command-line argument parsing
 - Training loop with validation
-- Evaluation on test set
-- Metric computation (accuracy, F1, etc. as appropriate)
-- Logging (TensorBoard or similar)
-- Checkpoint management
-- Early stopping (if applicable)
-
-BENCHMARK CODE REQUIREMENTS:
-- Compare against baseline methods
-- Standard datasets
-- Fair comparison setup
-- Statistical significance testing
-- Results visualization
-
-ABLATION CODE REQUIREMENTS:
-- Systematically remove/modify components
-- Compare configurations
-- Generate comparison tables/plots
-- Statistical analysis
+- Evaluation on test set with metrics
+- Compare against baselines
+- Include ablation studies
 
 Your output should be a JSON object with the following structure:
 {{
@@ -136,12 +101,7 @@ Your output should be a JSON object with the following structure:
     "setup_instructions": "step-by-step setup instructions"
 }}
 
-Generate code that is:
-- Production-ready and runnable
-- Well-documented
-- Following best practices
-- Suitable for paper submission
-- Reproducible"""
+Generate production-ready, well-documented, reproducible code."""
 
         human_template = """RESEARCH IDEA:
 
@@ -172,7 +132,7 @@ De-risking Experiments: {de_risking_experiments}
 Based on this approved research idea, generate a complete, working research project codebase.
 Output the JSON structure with all code files, README, requirements, and configuration.
 
-IMPORTANT: Generate actual, runnable code. Do not use placeholders or TODOs unless absolutely necessary."""
+Generate actual, runnable code."""
 
         self.system_prompt = SystemMessagePromptTemplate.from_template(system_template)
         self.human_prompt = HumanMessagePromptTemplate.from_template(human_template)
@@ -205,7 +165,6 @@ IMPORTANT: Generate actual, runnable code. Do not use placeholders or TODOs unle
             project_name = "".join(c for c in idea.title if c.isalnum() or c in (' ', '-', '_')).rstrip()
             project_name = project_name.replace(' ', '_').lower()[:50]
         
-        # Format de-risking experiments
         de_risking_str = "\n".join(f"- {exp}" for exp in evaluation.de_risking_experiments)
         if not de_risking_str:
             de_risking_str = "None specified"
@@ -286,70 +245,54 @@ IMPORTANT: Generate actual, runnable code. Do not use placeholders or TODOs unle
             project_name = "".join(c for c in idea.title if c.isalnum() or c in (' ', '-', '_')).rstrip()
             project_name = project_name.replace(' ', '_').lower()[:50]
         
-        # Create project directory
         base_dir = Path(output_dir)
         base_dir.mkdir(parents=True, exist_ok=True)
         
         project_dir = base_dir / project_name
         if project_dir.exists():
-            # Add timestamp to avoid conflicts
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             project_dir = base_dir / f"{project_name}_{timestamp}"
         
         project_dir.mkdir(parents=True, exist_ok=True)
-        
         logger.info(f"Saving project to: {project_dir}")
         
-        # Save project structure files
         project_structure = project_data.get("project_structure", {})
         for file_path, file_content in project_structure.items():
             full_path = project_dir / file_path
             full_path.parent.mkdir(parents=True, exist_ok=True)
-            
             with open(full_path, 'w', encoding='utf-8') as f:
                 f.write(file_content)
-            
             logger.info(f"Saved: {file_path}")
         
-        # Save README
         readme_content = project_data.get("readme_content", "")
         if readme_content:
-            readme_path = project_dir / "README.md"
-            with open(readme_path, 'w', encoding='utf-8') as f:
+            with open(project_dir / "README.md", 'w', encoding='utf-8') as f:
                 f.write(readme_content)
-            logger.info(f"Saved: README.md")
+            logger.info("Saved: README.md")
         
-        # Save requirements.txt
         requirements = project_data.get("requirements", [])
         if requirements:
-            req_path = project_dir / "requirements.txt"
-            with open(req_path, 'w', encoding='utf-8') as f:
+            with open(project_dir / "requirements.txt", 'w', encoding='utf-8') as f:
                 for req in requirements:
                     f.write(f"{req}\n")
-            logger.info(f"Saved: requirements.txt")
+            logger.info("Saved: requirements.txt")
         
-        # Save config YAML
         config_yaml = project_data.get("config_yaml", "")
         if config_yaml:
             config_dir = project_dir / "configs"
             config_dir.mkdir(exist_ok=True)
-            config_path = config_dir / "default.yaml"
-            with open(config_path, 'w', encoding='utf-8') as f:
+            with open(config_dir / "default.yaml", 'w', encoding='utf-8') as f:
                 f.write(config_yaml)
-            logger.info(f"Saved: configs/default.yaml")
+            logger.info("Saved: configs/default.yaml")
         
-        # Save setup instructions
         setup_instructions = project_data.get("setup_instructions", "")
         if setup_instructions:
-            setup_path = project_dir / "SETUP.md"
-            with open(setup_path, 'w', encoding='utf-8') as f:
+            with open(project_dir / "SETUP.md", 'w', encoding='utf-8') as f:
                 f.write(setup_instructions)
-            logger.info(f"Saved: SETUP.md")
+            logger.info("Saved: SETUP.md")
         
-        # Save original idea and evaluation for reference
         import json
-        idea_path = project_dir / "idea.json"
-        with open(idea_path, 'w', encoding='utf-8') as f:
+        with open(project_dir / "idea.json", 'w', encoding='utf-8') as f:
             json.dump({
                 "title": idea.title,
                 "abstract": idea.abstract,
@@ -359,8 +302,7 @@ IMPORTANT: Generate actual, runnable code. Do not use placeholders or TODOs unle
                 "keywords": idea.keywords
             }, f, indent=2)
         
-        eval_path = project_dir / "evaluation.json"
-        with open(eval_path, 'w', encoding='utf-8') as f:
+        with open(project_dir / "evaluation.json", 'w', encoding='utf-8') as f:
             json.dump({
                 "total_score": evaluation.score.total_score,
                 "novelty_score": evaluation.score.novelty_score,

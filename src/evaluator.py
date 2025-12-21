@@ -22,16 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class Evaluator:
-    """
-    Validates research ideas using a comprehensive evaluation framework.
-    
-    Implements the exact evaluation protocol from the template:
-    - Step 0: Literature quick-scan across multiple sources
-    - Step 1: Score using strict rubric
-    - Step 2: Total score calculation
-    - Step 3: Detailed feedback with thinking prompts
-    - Step 4: Unanswered questions and de-risking experiments
-    """
+    """Validates research ideas using a comprehensive evaluation framework."""
     
     # Minimum score threshold to pass
     MIN_PASSING_SCORE = 5
@@ -125,7 +116,7 @@ Step 4 Unanswered Questions and De-risking experiments
 
 Suggest key unanswered questions and a few initial **concrete experiments** or analyses that de-risk the idea. Each experiment should be specific and actionable.
 
-CRITICAL: Be strict but fair. Evaluate ideas rigorously, but:
+Be strict but fair. Evaluate ideas rigorously, but:
 - Don't be overly harsh on feasibility - standard research infrastructure (GPUs, public datasets) is acceptable
 - Reward ideas that have clear validation paths, even if they require some engineering effort
 - Most good ideas should score 4-5/7. Exceptional ideas score 6-7/7. Only truly weak ideas should score below 4/7.
@@ -335,11 +326,8 @@ LITERATURE QUICK-SCAN RESULTS
                         logger.error(f"Fallback evaluation creation failed: {fallback_error}")
                         raise ValueError(f"Failed to parse LLM evaluation response after all attempts: {parse_error}")
             
-            # Add literature papers to evaluation
             evaluation.literature_papers = formatted_literature.split("\n") if formatted_literature else []
             evaluation.literature_summary = f"Found {len(papers)} papers across multiple sources. Preferring recent papers."
-            
-            # Set passed threshold
             evaluation.passed_threshold = evaluation.score.total_score >= self.MIN_PASSING_SCORE
             
             logger.info(f"Evaluation complete. Score: {evaluation.score.total_score}/7")

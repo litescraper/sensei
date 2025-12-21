@@ -16,12 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class Harvester:
-    """
-    Fetches and filters papers from arxiv.
-    
-    Supports multiple research domains with configurable queries and categories.
-    Filters papers by publication date (2024+) and domain-specific arxiv categories.
-    """
+    """Fetches and filters papers from arxiv."""
     
     # Minimum publication date (2024-01-01)
     MIN_DATE = datetime(2024, 1, 1, tzinfo=timezone.utc)

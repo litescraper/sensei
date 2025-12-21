@@ -16,14 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class Autopsy:
-    """
-    Extracts limitations and vulnerabilities from research papers.
-    
-    Uses configurable LLM providers to analyze paper text and extract explicit
-    limitations, unsolved problems, and brittleness mentions.
-    """
-    
-    # Maximum tokens to process (focus on Discussion/Conclusion)
+    """Extracts limitations and vulnerabilities from research papers."""
     MAX_TOKENS = 3000
     
     def __init__(
@@ -45,11 +38,7 @@ class Autopsy:
             model_name=model_name,
             temperature=temperature
         )
-        
-        # Initialize output parser
         self.output_parser = PydanticOutputParser(pydantic_object=PaperAnalysis)
-        
-        # Build the comprehensive extraction prompt
         system_template = """You are an expert research analyst specializing in understanding research papers deeply and identifying opportunities for improvement.
 
 Your task is to comprehensively analyze this research paper and extract:
@@ -64,7 +53,7 @@ Your task is to comprehensively analyze this research paper and extract:
 8. SUGGESTED IMPROVEMENTS: Based on the limitations, what are concrete ways to improve this method?
 9. POTENTIAL SOLUTIONS: What approaches or techniques from other domains could address the identified problems?
 
-CRITICAL INSTRUCTIONS:
+Instructions:
 - Understand the paper deeply: What it does, how it works, why it matters.
 - Be specific and actionable. Extract concrete information, not vague statements.
 - For suggested improvements and solutions, think creatively about:
@@ -98,7 +87,6 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
             encoding = tiktoken.encoding_for_model("gpt-4o")
             return len(encoding.encode(text))
         except:
-            # Fallback: rough estimate
             return len(text.split()) * 1.3
     
     def _truncate_to_tokens(self, text: str, max_tokens: int) -> str:
@@ -106,16 +94,12 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
         tokens = self._count_tokens(text)
         if tokens <= max_tokens:
             return text
-        
-        # If too long, take the last portion (Discussion/Conclusion)
-        # Rough estimate: 1 token ≈ 4 characters
+
         chars_per_token = 4
         max_chars = max_tokens * chars_per_token
         
         if len(text) <= max_chars:
             return text
-        
-        # Take the last max_chars characters
         truncated = text[-max_chars:]
         logger.info(f"Truncated text from {len(text)} to {len(truncated)} chars (target: {max_tokens} tokens)")
         return truncated
@@ -139,8 +123,6 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
             }
             response = requests.get(pdf_url, headers=headers, timeout=30)
             response.raise_for_status()
-            
-            # Parse with PyMuPDF
             doc = fitz.open(stream=response.content, filetype="pdf")
             text_parts = []
             
@@ -182,14 +164,11 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
         
         for attempt in range(max_retries):
             try:
-                # Download and parse if text not provided
                 if paper_text is None:
                     paper_text = self.download_and_parse(paper.pdf_url)
                     if paper_text is None:
                         logger.error(f"Failed to extract text from {paper.pdf_url}")
                         return None
-                
-                # Truncate to focus on Discussion/Conclusion (last 3000 tokens)
                 truncated_text = self._truncate_to_tokens(paper_text, self.MAX_TOKENS)
                 
                 # Format prompt
@@ -212,8 +191,6 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
                     content = response.content
                 else:
                     content = str(response)
-                
-                # Try to extract JSON if wrapped in markdown code blocks
                 if "```json" in content:
                     start = content.find("```json") + 7
                     end = content.find("```", start)
@@ -224,8 +201,6 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
                     end = content.find("```", start)
                     if end != -1:
                         content = content[start:end].strip()
-                
-                # Try to parse as JSON
                 try:
                     analysis = self.output_parser.parse(content)
                 except Exception as parse_error:
@@ -247,14 +222,10 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
                 
             except Exception as e:
                 error_str = str(e).lower()
-                
-                # Check if it's a quota/rate limit error
                 if "quota" in error_str or "rate limit" in error_str or "429" in error_str:
                     if attempt < max_retries - 1:
-                        # Extract retry delay if available
                         retry_delay = 10
                         if "retry in" in error_str or "retry_delay" in error_str:
-                            # Try to extract delay from error message
                             delay_match = re.search(r'(\d+\.?\d*)\s*s', error_str)
                             if delay_match:
                                 retry_delay = float(delay_match.group(1)) + 2  # Add 2s buffer
@@ -266,7 +237,6 @@ Paper Text (truncated to last 3000 tokens focusing on Discussion/Conclusion): {p
                         logger.error(f"Quota exceeded after {max_retries} attempts. Please check your API quota or use a different model.")
                         return None
                 else:
-                    # Non-quota error, log and return None
                     logger.error(f"Error extracting limitations from paper {paper.title}: {e}")
                     return None
         

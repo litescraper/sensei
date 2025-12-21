@@ -95,7 +95,7 @@ Result: 20 papers (after filtering)
      - Non-incremental solutions
      - Cross-disciplinary bridging
      - Solving limitations from Paper A using techniques from Paper B
-   - Generates ICML-style abstract
+   - Generates structured abstract
 
 3. **Output Structure**:
    - Title
@@ -123,7 +123,7 @@ The evaluation stage implements an iterative refinement mechanism where a **Judg
    ▼
 2. Judge evaluates idea
    │
-   ├─→ Passes threshold? → ✅ Done, proceed to reporting
+   ├─→ Passes threshold? → Done, proceed to reporting
    │
    └─→ Fails threshold? → Continue to refinement
        │
@@ -133,7 +133,7 @@ The evaluation stage implements an iterative refinement mechanism where a **Judg
    ▼
 4. Judge re-evaluates refined idea
    │
-   ├─→ Passes? → ✅ Done
+   ├─→ Passes? → Done
    │
    └─→ Still fails? → Refine again (up to 2 iterations)
 ```

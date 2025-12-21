@@ -1,6 +1,6 @@
 """
 Module 3: The Synthesizer - The Inventor
-Generates ICML-worthy ideas by intersecting limitations.
+Generates novel research ideas by intersecting limitations.
 """
 from typing import List, Optional
 import logging
@@ -13,12 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class Synthesizer:
-    """
-    Generates novel research ideas by intersecting limitations from multiple papers.
-    
-    Uses configurable LLM providers with higher temperature for creative idea generation.
-    Focuses on non-incremental solutions that bridge different research domains.
-    """
+    """Generates novel research ideas by intersecting limitations from multiple papers."""
     
     def __init__(
         self,
@@ -34,7 +29,7 @@ class Synthesizer:
             provider: LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
             model_name: Specific model name (defaults to provider's best model)
             temperature: Temperature for LLM generation (default: 0.8 for creativity)
-            target_conference: Target conference name (e.g., "ICML", "NeurIPS") for idea generation
+            target_conference: Target conference name for idea generation
         """
         self.target_conference = target_conference
         self.llm = LLMProvider.create_llm(
@@ -74,7 +69,7 @@ Your mission is to generate research ideas that:
 3. Recognize their limitations and vulnerabilities
 4. Propose novel solutions that combine the best of multiple approaches
 
-CRITICAL CONSTRAINTS:
+Constraints:
 1. DO NOT propose incremental improvements. Examples of what NOT to propose:
    - "Fine-tune on more data"
    - "Use a larger model"
@@ -93,7 +88,7 @@ CRITICAL CONSTRAINTS:
 3. Your ideas should be:
    - Novel: Few or no existing papers should address this exact problem in this way
    - Audacious: Worthy of mainstream news coverage
-   - Feasible: CRITICAL - Must be achievable with today's compute and data resources. Prioritize:
+   - Feasible: Must be achievable with today's compute and data resources. Prioritize:
      * Ideas that can be validated with existing datasets or easy-to-collect data
      * Methods that don't require massive compute (prefer approaches that work with standard GPUs)
      * Clear, simple first steps and intermediate milestones
@@ -130,7 +125,7 @@ Generate a research idea that:
 - Explains how it addresses specific limitations using identified solutions
 - Outlines expected results and how they would be evaluated
 - Includes 5-10 keywords for literature search validation
-- CRITICAL: Explicitly describes:
+- Explicitly describes:
   * What datasets/resources are needed (prefer existing/public datasets)
   * What compute requirements are expected (be realistic)
   * What are the first steps and intermediate milestones
@@ -265,13 +260,13 @@ The previous idea scored {self.last_feedback['total_score']}/7 and failed feasib
 Feasibility Score: {self.last_feedback['feasibility_score']}/2
 Feedback: {self.last_feedback['feasibility_justification']}
 
-IMPORTANT: For this attempt, focus heavily on feasibility:
+For this attempt, focus heavily on feasibility:
 - Simplify the approach - avoid complex multi-component systems
 - Use existing datasets and standard compute resources
 - Provide clear, simple validation steps
 - Break down into independently testable components
 """
-                failure_instructions = "\n5. CRITICAL: Prioritize feasibility - make the idea simpler and more practical than the previous attempt"
+                failure_instructions = "\n5. Prioritize feasibility - make the idea simpler and more practical than the previous attempt"
             
             messages = self.prompt.format_messages(
                 knowledge_context=knowledge_context,

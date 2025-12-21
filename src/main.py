@@ -38,18 +38,7 @@ logger = logging.getLogger(__name__)
 
 
 class Sensei:
-    """
-    Main orchestration class for the Autonomous Research Scientist.
-    
-    This system autonomously:
-    1. Harvests recent research papers from arxiv
-    2. Extracts limitations and vulnerabilities
-    3. Synthesizes novel research ideas
-    4. Evaluates ideas using the evaluation framework
-    5. Iteratively refines ideas using "Agents as a Loop and Judge" mechanism
-    6. Generates comprehensive research reports
-    7. Generates complete research project code (if idea passes threshold)
-    """
+    """Main orchestration class for the Autonomous Research Scientist."""
     
     def __init__(
         self,
@@ -71,7 +60,7 @@ class Sensei:
             model_name: Model name (defaults to provider's best model)
             max_papers_to_analyze: Maximum number of papers to analyze
             max_idea_generation_attempts: Maximum attempts to generate passing idea
-            target_conference: Target conference name (e.g., "ICML", "NeurIPS")
+            target_conference: Target conference name (e.g., "NeurIPS", "ICLR")
         """
         self.target_conference = target_conference
         self.domain = domain
@@ -105,7 +94,7 @@ class Sensei:
         self.code_generator = CodeGenerator(provider=provider, model_name=model_name)
     
     def harvest_papers(self) -> List[Paper]:
-        """Step 1: Harvest papers from arxiv."""
+        """Harvest papers from arxiv."""
         logger.info("=" * 80)
         logger.info("MODULE 1: HARVESTER - Fetching papers from arxiv")
         logger.info("=" * 80)
@@ -115,7 +104,7 @@ class Sensei:
         return papers
     
     def analyze_papers(self, papers: List[Paper]) -> List[PaperAnalysis]:
-        """Step 2: Extract limitations from papers."""
+        """Extract limitations from papers."""
         logger.info("=" * 80)
         logger.info("MODULE 2: AUTOPSY - Extracting limitations from papers")
         logger.info("=" * 80)
@@ -149,15 +138,7 @@ class Sensei:
         attempt: int = 1,
         refine_iterations: int = 2
     ) -> tuple[ResearchIdea, Evaluation]:
-        """
-        Step 3 & 4: Generate idea and validate it with iterative refinement.
-        
-        Implements "Agents as a Loop and Judge" mechanism:
-        1. Generator creates initial idea
-        2. Judge evaluates and provides feedback
-        3. Refiner improves idea based on feedback
-        4. Loop continues until idea passes or max iterations
-        """
+        """Generate idea and validate it with iterative refinement."""
         logger.info("=" * 80)
         logger.info(f"MODULE 3: SYNTHESIZER - Generating research idea (Attempt {attempt})")
         logger.info("=" * 80)

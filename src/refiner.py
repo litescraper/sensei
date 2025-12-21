@@ -19,12 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class Refiner:
-    """
-    Refines research ideas based on evaluation feedback.
-    
-    Takes an idea and evaluation feedback, then generates an improved version
-    that addresses the weaknesses identified by the judge.
-    """
+    """Refines research ideas based on evaluation feedback."""
     
     def __init__(
         self,
@@ -48,25 +43,24 @@ class Refiner:
         
         self.output_parser = PydanticOutputParser(pydantic_object=ResearchIdea)
         
-        # Build refinement prompt
-        system_template = """You are an expert research idea refiner. Your role is to improve research ideas based on detailed feedback from an evaluation judge.
+        system_template = """You are an expert research idea refiner. Improve research ideas based on evaluation feedback.
 
-Your task is to take an existing research idea and refine it to address specific weaknesses and improve its scores across novelty, audacity, feasibility, and cross-disciplinary impact.
+Your task is to take an existing research idea and refine it to address specific weaknesses and improve scores across novelty, audacity, feasibility, and cross-disciplinary impact.
 
-CRITICAL PRINCIPLES:
-1. **Address Specific Weaknesses**: The judge has identified concrete weaknesses. Address each one directly.
-2. **Preserve Strengths**: Keep what works well - don't throw away good aspects.
-3. **Make Concrete Improvements**: Don't just add vague statements. Provide specific, actionable improvements.
-4. **Improve Feasibility**: If feasibility is low, simplify the approach, use existing resources, clarify milestones.
-5. **Enhance Novelty**: If novelty is low, introduce new framing, combine techniques in novel ways, bridge fields.
-6. **Increase Audacity**: If audacity is low, make the idea more ambitious while keeping it feasible.
+Principles:
+1. Address specific weaknesses identified by the judge
+2. Preserve strengths of the original idea
+3. Make concrete, actionable improvements
+4. Improve feasibility by simplifying approach, using existing resources, clarifying milestones
+5. Enhance novelty by introducing new framing, combining techniques, bridging fields
+6. Increase audacity while maintaining feasibility
 
-REFINEMENT STRATEGY:
-- Read the evaluation feedback carefully
-- Identify the main weaknesses (from feedback_table)
-- For each weakness, propose a concrete improvement
-- Revise the idea components (title, abstract, method, etc.) to incorporate improvements
-- Ensure the refined idea is better than the original while maintaining coherence
+Strategy:
+- Read evaluation feedback carefully
+- Identify main weaknesses from feedback table
+- Propose concrete improvements for each weakness
+- Revise idea components (title, abstract, method) to incorporate improvements
+- Ensure refined idea is better while maintaining coherence
 
 Output the refined idea as a JSON object matching the ResearchIdea schema."""
         

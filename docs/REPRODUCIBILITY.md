@@ -94,15 +94,15 @@ Compare your results with published numbers:
 
 The following are deterministic (same seed → same results):
 
-- ✅ Paper harvesting order (if deterministic)
-- ✅ Random seed initialization
-- ✅ Experiment run order
+- Paper harvesting order (if deterministic)
+- Random seed initialization
+- Experiment run order
 
-The following are **non-deterministic** (may vary):
+The following are non-deterministic (may vary):
 
-- ⚠️ LLM outputs (even with temperature=0, some non-determinism may exist)
-- ⚠️ API response times
-- ⚠️ Literature search results (may change over time)
+- LLM outputs (even with temperature=0, some non-determinism may exist)
+- API response times
+- Literature search results (may change over time)
 
 ## Handling Non-Determinism
 

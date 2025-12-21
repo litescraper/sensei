@@ -134,7 +134,7 @@
 - **Key Features**:
   - Intersection of limitations
   - Non-incremental idea generation
-  - ICML-style output format
+  - Conference-style output format
   - Cross-disciplinary bridging
 
 ### Module 4: Evaluator (Judge)
@@ -202,7 +202,7 @@ PaperAnalyses → Synthesizer → ResearchIdea (Initial)
 │                                                       │
 │  ResearchIdea → Evaluator (Judge) → Evaluation        │
 │       │                    │                          │
-│       │                    ├─→ Pass? → ✅ Done        │
+│       │                    ├─→ Pass? → Done        │
 │       │                    │                          │
 │       │                    └─→ Fail? → Continue      │
 │       │                                              │
