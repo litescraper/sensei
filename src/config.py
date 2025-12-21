@@ -17,6 +17,17 @@ class ResearchDomain(Enum):
     CLIMATE_SCIENCE = "Climate Science, Environmental Modeling"
     MATERIALS_SCIENCE = "Materials Science, Computational Chemistry"
     THEORETICAL_CS = "Theoretical Computer Science, Algorithms, Complexity"
+    GRAPH_NEURAL_NETWORKS = "Graph Neural Networks, Network Analysis"
+    REINFORCEMENT_LEARNING = "Reinforcement Learning, Multi-Agent Systems"
+    FEDERATED_LEARNING = "Federated Learning, Privacy-Preserving ML"
+    CRYPTOGRAPHY = "Cryptography, Security Protocols, Privacy"
+    OPTIMIZATION = "Optimization Theory, Convex Optimization, Meta-Learning"
+    CAUSAL_INFERENCE = "Causal Inference, Causal Discovery, Causal ML"
+    TRANSFER_LEARNING = "Transfer Learning, Domain Adaptation, Few-Shot Learning"
+    EXPLAINABLE_AI = "Explainable AI, Interpretability, Fairness"
+    MULTIMODAL_LEARNING = "Multimodal Learning, Vision-Language Models"
+    GENERATIVE_MODELS = "Generative Models, GANs, Diffusion Models, VAEs"
+    EDGE_AI = "Edge AI, Mobile ML, Efficient Inference"
     CUSTOM = "Custom Domain (user-specified queries)"
 
 
@@ -137,6 +148,83 @@ DOMAIN_QUERIES: Dict[ResearchDomain, List[str]] = {
         "distributed computing theory",
         "cryptographic protocols"
     ],
-    ResearchDomain.CUSTOM: [],  # User will provide queries
+    ResearchDomain.GRAPH_NEURAL_NETWORKS: [
+        "graph neural networks attention",
+        "message passing neural networks",
+        "graph representation learning",
+        "dynamic graph learning",
+        "heterogeneous graph networks"
+    ],
+    ResearchDomain.REINFORCEMENT_LEARNING: [
+        "deep reinforcement learning",
+        "multi-agent reinforcement learning",
+        "offline reinforcement learning",
+        "hierarchical reinforcement learning",
+        "meta reinforcement learning"
+    ],
+    ResearchDomain.FEDERATED_LEARNING: [
+        "federated learning privacy",
+        "federated optimization algorithms",
+        "federated learning communication efficiency",
+        "heterogeneous federated learning",
+        "federated learning security"
+    ],
+    ResearchDomain.CRYPTOGRAPHY: [
+        "post-quantum cryptography",
+        "homomorphic encryption",
+        "zero-knowledge proofs",
+        "secure multi-party computation",
+        "privacy-preserving machine learning"
+    ],
+    ResearchDomain.OPTIMIZATION: [
+        "convex optimization algorithms",
+        "non-convex optimization",
+        "meta-learning optimization",
+        "gradient-free optimization",
+        "distributed optimization"
+    ],
+    ResearchDomain.CAUSAL_INFERENCE: [
+        "causal discovery algorithms",
+        "causal machine learning",
+        "counterfactual reasoning",
+        "causal effect estimation",
+        "causal representation learning"
+    ],
+    ResearchDomain.TRANSFER_LEARNING: [
+        "domain adaptation",
+        "few-shot learning",
+        "meta-learning",
+        "continual learning",
+        "cross-domain transfer"
+    ],
+    ResearchDomain.EXPLAINABLE_AI: [
+        "model interpretability",
+        "feature attribution methods",
+        "fairness in machine learning",
+        "algorithmic transparency",
+        "adversarial robustness interpretability"
+    ],
+    ResearchDomain.MULTIMODAL_LEARNING: [
+        "vision-language models",
+        "multimodal representation learning",
+        "cross-modal retrieval",
+        "multimodal fusion",
+        "visual question answering"
+    ],
+    ResearchDomain.GENERATIVE_MODELS: [
+        "generative adversarial networks",
+        "diffusion models",
+        "variational autoencoders",
+        "autoregressive models",
+        "normalizing flows"
+    ],
+    ResearchDomain.EDGE_AI: [
+        "mobile machine learning",
+        "model compression",
+        "neural architecture search",
+        "quantization techniques",
+        "efficient inference"
+    ],
+    ResearchDomain.CUSTOM: [],
 }
 

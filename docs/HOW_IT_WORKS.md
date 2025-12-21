@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Autonomous Research Scientist is a six-stage pipeline that transforms raw research papers into evaluated, novel research ideas. This document explains the mechanics of each stage.
+Sensei is a six-stage pipeline that transforms raw research papers into evaluated, novel research ideas. It also supports validating user-provided research ideas. This document explains the mechanics of each stage.
 
 ## Stage 1: Harvesting Papers
 
@@ -288,9 +288,11 @@ When an idea fails the evaluation threshold, the **Refiner** agent takes over:
 
 ### Adding New Domains
 
-1. Add domain to `ResearchDomain` enum
-2. Add categories to `DOMAIN_CATEGORIES`
-3. Add queries to `DOMAIN_QUERIES`
+1. Add domain to `ResearchDomain` enum in `src/config.py`
+2. Add categories to `DOMAIN_CATEGORIES` dictionary
+3. Add queries to `DOMAIN_QUERIES` dictionary
+
+Currently supports 21+ pre-configured domains. Custom domains can be created by providing search queries directly or using natural language descriptions.
 
 ### Adding New LLM Providers
 

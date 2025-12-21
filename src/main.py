@@ -298,6 +298,7 @@ class Sensei:
                     project_path = self.code_generator.save_project(
                         project_data=project_data,
                         idea=best_idea,
+                        evaluation=best_evaluation,
                         output_dir=os.path.join(output_dir, "..", "generated_projects")
                     )
                     

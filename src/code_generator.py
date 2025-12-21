@@ -88,20 +88,28 @@ Guidelines:
 - Compare against baselines
 - Include ablation studies
 
-Your output should be a JSON object with the following structure:
+CRITICAL: You MUST output ONLY valid JSON. Do not include any markdown, explanations, or directory trees. Output ONLY the JSON object.
+
+Your output must be a valid JSON object with this exact structure:
 {{
     "project_structure": {{
-        "src/model.py": "complete code content",
-        "src/trainer.py": "complete code content",
-        ...
+        "src/model.py": "complete code content here",
+        "src/trainer.py": "complete code content here",
+        "src/evaluator.py": "complete code content here",
+        "src/utils.py": "complete code content here",
+        "experiments/train.py": "complete code content here",
+        "experiments/evaluate.py": "complete code content here",
+        "experiments/benchmark.py": "complete code content here",
+        "experiments/ablation.py": "complete code content here",
+        "configs/default.yaml": "complete YAML content here"
     }},
-    "readme_content": "complete README markdown",
-    "requirements": ["package1>=version", "package2>=version", ...],
-    "config_yaml": "complete YAML configuration",
+    "readme_content": "complete README markdown content",
+    "requirements": ["torch>=2.0.0", "numpy>=1.24.0", "pandas>=2.0.0"],
+    "config_yaml": "complete YAML configuration content",
     "setup_instructions": "step-by-step setup instructions"
 }}
 
-Generate production-ready, well-documented, reproducible code."""
+Output ONLY the JSON object, nothing else. No markdown, no explanations, no directory trees."""
 
         human_template = """RESEARCH IDEA:
 
@@ -130,9 +138,8 @@ Score: {total_score}/7
 De-risking Experiments: {de_risking_experiments}
 
 Based on this approved research idea, generate a complete, working research project codebase.
-Output the JSON structure with all code files, README, requirements, and configuration.
 
-Generate actual, runnable code."""
+IMPORTANT: Output ONLY valid JSON. Start with {{ and end with }}. Include all code files in the project_structure field as strings. Do not output markdown, directory trees, or explanations - only JSON."""
 
         self.system_prompt = SystemMessagePromptTemplate.from_template(system_template)
         self.human_prompt = HumanMessagePromptTemplate.from_template(human_template)
@@ -192,11 +199,9 @@ Generate actual, runnable code."""
         response = self.llm.invoke(messages)
         content = response.content if hasattr(response, 'content') else str(response)
         
-        # Try to extract JSON
         import json
         import re
         
-        # Extract JSON from response
         if "```json" in content:
             start = content.find("```json") + 7
             end = content.find("```", start)
@@ -208,24 +213,41 @@ Generate actual, runnable code."""
             if end != -1:
                 content = content[start:end].strip()
         
-        # Try to find JSON object
         json_match = re.search(r'\{[\s\S]*\}', content)
         if json_match:
             content = json_match.group(0)
         
+        lines = content.split('\n')
+        json_start = None
+        json_end = None
+        for i, line in enumerate(lines):
+            if line.strip().startswith('{'):
+                json_start = i
+                break
+        for i in range(len(lines) - 1, -1, -1):
+            if lines[i].strip().endswith('}'):
+                json_end = i + 1
+                break
+        
+        if json_start is not None and json_end is not None:
+            content = '\n'.join(lines[json_start:json_end])
+        
         try:
             project_data = json.loads(content)
+            if "project_structure" not in project_data:
+                raise ValueError("Missing 'project_structure' key in JSON response")
             logger.info("Successfully parsed generated project code")
             return project_data
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse JSON response: {e}")
-            logger.error(f"Response content (first 1000 chars): {content[:1000]}...")
+            logger.error(f"Response content (first 2000 chars): {content[:2000]}...")
             raise ValueError(f"Failed to parse code generation response: {e}")
     
     def save_project(
         self,
         project_data: Dict[str, Any],
         idea: ResearchIdea,
+        evaluation: Evaluation,
         output_dir: str = "generated_projects",
         project_name: Optional[str] = None
     ) -> str:

@@ -81,8 +81,16 @@ Access at `http://localhost:8501`
 ### Command Line
 
 ```bash
-python main.py --domain AI_SAFETY --provider google --max-papers 5
+python -m src.main --domain AI_SAFETY --provider google --max-papers 5
 ```
+
+### Idea Validation
+
+Use the "Validate Idea" tab in the web UI to validate your existing research ideas. The system will:
+- Evaluate your idea using the same comprehensive framework
+- Provide detailed scores and feedback
+- Suggest improvements and de-risking experiments
+- Generate a downloadable evaluation report
 
 ## Troubleshooting
 

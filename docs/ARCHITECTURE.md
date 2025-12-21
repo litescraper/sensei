@@ -109,13 +109,14 @@
 
 ### Module 1: Harvester
 - **Purpose**: Fetch papers from arxiv
-- **Input**: Domain configuration, custom queries
+- **Input**: Domain configuration, custom queries, or natural language description
 - **Output**: List of Paper objects
 - **Key Features**:
-  - Domain-specific category filtering
+  - Domain-specific category filtering (21+ pre-configured domains)
   - Date filtering (2024+)
   - Deduplication by arxiv_id
   - Configurable query sets
+  - Natural language query generation: users can describe research interests in natural language, and the system generates search queries automatically
 
 ### Module 2: Autopsy
 - **Purpose**: Extract limitations from papers

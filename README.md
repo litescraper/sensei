@@ -19,8 +19,9 @@
 ## Key Features
 
 ### Multi-Domain Research Support
-- **10+ Pre-configured Domains**: AI Safety, Computer Vision, NLP, Robotics, Neuroscience, Quantum Computing, Bioinformatics, Climate Science, Materials Science, Theoretical CS
+- **21+ Pre-configured Domains**: AI Safety, Computer Vision, NLP, Robotics, Neuroscience, Quantum Computing, Bioinformatics, Climate Science, Materials Science, Theoretical CS, Graph Neural Networks, Reinforcement Learning, Federated Learning, Cryptography, Optimization, Causal Inference, Transfer Learning, Explainable AI, Multimodal Learning, Generative Models, Edge AI
 - **Custom Domain Support**: Define your own research queries and categories
+- **Natural Language Input**: Describe your research interests in natural language and the system will generate search queries automatically
 - **Domain-Specific Optimization**: Tailored arxiv categories and search queries per domain
 
 ### Multi-Provider LLM Support
@@ -36,6 +37,7 @@
 - **Real-time Progress Tracking**: Visual progress bars and status updates
 - **Configuration Panel**: Easy domain, provider, and model selection
 - **Results Dashboard**: View and download generated reports
+- **Idea Validation**: Validate your existing research ideas using the same comprehensive evaluation framework
 
 ### Rigorous Evaluation Framework
 - **7-Point Scoring Rubric**: Comprehensive evaluation across novelty, audacity, feasibility, and cross-disciplinary impact

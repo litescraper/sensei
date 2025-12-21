@@ -305,7 +305,7 @@ st.markdown("""
     .section-header {
         font-size: 2rem;
         font-weight: 800;
-        color: #1f2937 !important;
+        color: white !important;
         margin: 3rem 0 1.5rem 0;
         padding-bottom: 1rem;
         border-bottom: 3px solid #667eea;
@@ -454,16 +454,50 @@ def main():
                 label_visibility="collapsed"
             )
             
-            st.markdown("**Search queries (one per line):**")
+            st.markdown("**Describe your research interests (natural language):**")
+            natural_language_input = st.text_area(
+                "Natural language description",
+                placeholder="e.g., I'm interested in combining graph neural networks with reinforcement learning for multi-agent systems. I want to explore how GNNs can improve coordination in decentralized environments.",
+                height=100,
+                label_visibility="collapsed",
+                help="Describe your research interests in natural language. The system will generate search queries automatically."
+            )
+            
+            st.markdown("**Or provide search queries directly (one per line):**")
             query_text = st.text_area(
                 "Queries",
-                placeholder="quantum machine learning\nquantum algorithms optimization\nvariational quantum circuits",
-                height=120,
+                placeholder="graph neural networks reinforcement learning\nmulti-agent systems coordination\ndecentralized learning",
+                height=100,
                 label_visibility="collapsed"
             )
             
-            if query_text:
+            if natural_language_input and not query_text:
+                try:
+                    query_generation_prompt = f"""Based on the following research interest description, generate 3-5 specific search queries for arXiv paper search.
+
+Research Interest: {natural_language_input}
+
+Generate search queries that are:
+- Specific and focused
+- Suitable for arXiv paper search
+- Cover different aspects of the research interest
+- Use technical terminology
+
+Return only the queries, one per line, without numbering or bullets."""
+                    from src.llm_providers import LLMProvider
+                    llm = LLMProvider.create_llm(provider=provider, model_name=model_name, temperature=0.7)
+                    response = llm.invoke(query_generation_prompt)
+                    generated_queries = response.content if hasattr(response, 'content') else str(response)
+                    custom_queries = [q.strip() for q in generated_queries.split("\n") if q.strip() and not q.strip().startswith("#")]
+                    if custom_queries:
+                        st.info(f"Generated queries: {', '.join(custom_queries[:3])}...")
+                except Exception as e:
+                    st.warning(f"Could not generate queries from natural language: {e}. Please provide queries directly.")
+                    custom_queries = None
+            elif query_text:
                 custom_queries = [q.strip() for q in query_text.split("\n") if q.strip()]
+            else:
+                custom_queries = None
             
             if custom_domain_name and custom_queries:
                 selected_domain = ResearchDomain.CUSTOM
@@ -564,7 +598,7 @@ def main():
             st.warning("Some API keys are missing. Please set them in .env file")
     
     # Main content area
-    tab1, tab2, tab3, tab4 = st.tabs(["Run Pipeline", "Results", "Documentation", "About"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Run Pipeline", "Validate Idea", "Results", "Documentation", "About"])
     
     with tab1:
         st.markdown('<div class="section-header">Start Research Pipeline</div>', unsafe_allow_html=True)
@@ -654,14 +688,95 @@ def main():
                 run_pipeline(selected_domain, custom_queries, provider, model_name, max_papers, max_attempts, selected_conference)
     
     with tab2:
+        st.markdown('<div class="section-header">Validate Research Idea</div>', unsafe_allow_html=True)
+        
+        st.markdown("""
+        ### Validate Your Research Idea
+        
+        Have a research idea you'd like to validate? Enter it below and Sensei will evaluate it using the same comprehensive framework used for generated ideas.
+        
+        This will help you understand:
+        - **Novelty**: How novel is your idea compared to existing work?
+        - **Audacity**: How impactful could this be if successful?
+        - **Feasibility**: Is this achievable with current resources?
+        - **Cross-disciplinary impact**: Does it bridge multiple fields?
+        - **Detailed feedback**: Specific suggestions for improvement
+        - **De-risking experiments**: Concrete experiments to validate your idea
+        """)
+        
+        st.markdown("---")
+        
+        idea_title = st.text_input(
+            "Research Idea Title *",
+            placeholder="e.g., Graph Neural Networks for Multi-Agent Reinforcement Learning",
+            help="Enter a clear, descriptive title for your research idea"
+        )
+        
+        idea_abstract = st.text_area(
+            "Abstract *",
+            placeholder="Provide a brief abstract (2-3 sentences) describing your research idea...",
+            height=100,
+            help="Brief summary of your research idea"
+        )
+        
+        idea_introduction = st.text_area(
+            "Introduction / Background",
+            placeholder="Describe the problem, motivation, and background context...",
+            height=120,
+            help="Context and motivation for your research idea"
+        )
+        
+        idea_method = st.text_area(
+            "Method / Approach *",
+            placeholder="Describe your proposed method, approach, or technique...",
+            height=120,
+            help="Your proposed methodology"
+        )
+        
+        idea_expected_results = st.text_area(
+            "Expected Results",
+            placeholder="What results do you expect? What would success look like?",
+            height=100,
+            help="Expected outcomes and success criteria"
+        )
+        
+        idea_keywords = st.text_input(
+            "Keywords (comma-separated)",
+            placeholder="graph neural networks, reinforcement learning, multi-agent systems",
+            help="Keywords for literature search"
+        )
+        
+        st.markdown("---")
+        
+        col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
+        with col_btn2:
+            validate_button = st.button(
+                "Validate Idea",
+                type="primary",
+                use_container_width=True
+            )
+        
+        if validate_button:
+            if not idea_title or not idea_abstract or not idea_method:
+                st.error("Please fill in at least Title, Abstract, and Method fields (marked with *).")
+            elif not all(api_keys_status.values()):
+                st.error("Please configure all required API keys in .env file.")
+            else:
+                validate_idea(
+                    idea_title, idea_abstract, idea_introduction, 
+                    idea_method, idea_expected_results, idea_keywords,
+                    provider, model_name, selected_conference
+                )
+    
+    with tab3:
         st.markdown('<div class="section-header">Previous Results</div>', unsafe_allow_html=True)
         display_results()
     
-    with tab3:
+    with tab4:
         st.markdown('<div class="section-header">Documentation</div>', unsafe_allow_html=True)
         display_documentation()
     
-    with tab4:
+    with tab5:
         st.markdown('<div class="section-header">About Sensei</div>', unsafe_allow_html=True)
         display_about()
 
@@ -824,6 +939,184 @@ def display_documentation():
     3. Click "Start Research Pipeline"
     4. Download your generated research report
     """)
+
+
+def validate_idea(
+    title: str,
+    abstract: str,
+    introduction: str,
+    method: str,
+    expected_results: str,
+    keywords: str,
+    provider: str,
+    model_name: Optional[str],
+    target_conference: str
+):
+    """Validate a user-provided research idea."""
+    from src.models import ResearchIdea
+    from src.evaluator import Evaluator
+    from src.reporter import Reporter
+    import os
+    
+    progress_container = st.container()
+    status_container = st.container()
+    results_container = st.container()
+    
+    with progress_container:
+        st.markdown("### Validation Progress")
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+    
+    try:
+        with status_container:
+            with st.expander("Initialization", expanded=True):
+                status_text.markdown("**Status:** Initializing evaluator...")
+                progress_bar.progress(0.1)
+                time.sleep(0.3)
+        
+        evaluator = Evaluator(
+            provider=provider,
+            model_name=model_name,
+            serpapi_key=os.getenv("SERPAPI_API_KEY"),
+            semanticscholar_key=os.getenv("SEMANTICSCHOLAR_API_KEY")
+        )
+        
+        keywords_list = [k.strip() for k in keywords.split(",") if k.strip()] if keywords else []
+        
+        idea = ResearchIdea(
+            title=title,
+            abstract=abstract,
+            introduction=introduction or "No introduction provided.",
+            method=method,
+            expected_results=expected_results or "No expected results specified.",
+            keywords=keywords_list
+        )
+        
+        with status_container:
+            with st.expander("Evaluating Idea", expanded=True):
+                status_text.markdown("**Status:** Evaluating your research idea... This may take a minute.")
+                progress_bar.progress(0.3)
+        
+        evaluation = evaluator.evaluate(idea)
+        
+        progress_bar.progress(1.0)
+        
+        with results_container:
+            st.markdown("""
+            <div class="success-box">
+                <h2>Evaluation Complete</h2>
+                <p>Your research idea has been evaluated.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("Total Score", f"{evaluation.score.total_score}/7")
+            
+            with col2:
+                st.metric("Novelty", f"{evaluation.score.novelty_score}/2")
+            
+            with col3:
+                st.metric("Audacity", f"{evaluation.score.audacity_score}/2")
+            
+            with col4:
+                st.metric("Feasibility", f"{evaluation.score.feasibility_score}/2")
+            
+            st.markdown("---")
+            
+            st.markdown("### Detailed Scores")
+            
+            score_col1, score_col2 = st.columns(2)
+            
+            with score_col1:
+                st.markdown(f"""
+                **Novelty ({evaluation.score.novelty_score}/2)**
+                
+                {evaluation.score.novelty_justification}
+                """)
+                
+                st.markdown(f"""
+                **Audacity ({evaluation.score.audacity_score}/2)**
+                
+                {evaluation.score.audacity_justification}
+                """)
+            
+            with score_col2:
+                st.markdown(f"""
+                **Feasibility ({evaluation.score.feasibility_score}/2)**
+                
+                {evaluation.score.feasibility_justification}
+                """)
+                
+                st.markdown(f"""
+                **Cross-Disciplinary ({evaluation.score.cross_disciplinary_score}/1)**
+                
+                {evaluation.score.cross_disciplinary_justification}
+                """)
+            
+            st.markdown("---")
+            
+            st.markdown("### Overall Summary")
+            st.markdown(evaluation.overall_summary)
+            
+            if evaluation.feedback_table:
+                st.markdown("---")
+                st.markdown("### Feedback and Suggestions")
+                
+                for i, feedback in enumerate(evaluation.feedback_table, 1):
+                    with st.expander(f"Feedback {i}: {feedback.weakness}", expanded=(i == 1)):
+                        st.markdown(f"""
+                        **Novelty Improvement:**
+                        {feedback.thinking_prompt_novelty}
+                        
+                        **Audacity Improvement:**
+                        {feedback.thinking_prompt_audacity}
+                        
+                        **Feasibility Improvement:**
+                        {feedback.thinking_prompt_feasibility}
+                        
+                        **Why Important:**
+                        {feedback.why_important}
+                        """)
+            
+            if evaluation.de_risking_experiments:
+                st.markdown("---")
+                st.markdown("### De-risking Experiments")
+                for i, exp in enumerate(evaluation.de_risking_experiments, 1):
+                    st.markdown(f"{i}. {exp}")
+            
+            if evaluation.literature_papers:
+                st.markdown("---")
+                st.markdown("### Related Literature")
+                st.markdown(f"Found {len(evaluation.literature_papers)} related papers:")
+                for paper in evaluation.literature_papers[:10]:
+                    st.markdown(f"- {paper}")
+            
+            st.markdown("---")
+            
+            reporter = Reporter()
+            report_path = reporter.save_report(idea, evaluation, output_dir="reports")
+            
+            if report_path:
+                with open(report_path, 'r') as f:
+                    report_content = f.read()
+                
+                col1, col_btn, col3 = st.columns([1, 2, 1])
+                with col_btn:
+                    st.download_button(
+                        label="Download Full Evaluation Report",
+                        data=report_content,
+                        file_name=Path(report_path).name,
+                        mime="text/markdown",
+                        use_container_width=True
+                    )
+    
+    except Exception as e:
+        with status_container:
+            st.error(f"Error: {str(e)}")
+            with st.expander("Error Details"):
+                st.exception(e)
 
 
 def display_about():

@@ -23,12 +23,13 @@ report_path = scientist.run(output_dir="reports")
 
 #### Parameters
 
-- `domain` (ResearchDomain): Research domain to target
-- `custom_queries` (List[str], optional): Custom search queries
+- `domain` (ResearchDomain): Research domain to target (21+ pre-configured domains available)
+- `custom_queries` (List[str], optional): Custom search queries (can be generated from natural language input)
 - `provider` (str): LLM provider ("google", "anthropic", "openai", "openrouter", "groq", "together")
 - `model_name` (str, optional): Specific model name
 - `max_papers_to_analyze` (int): Maximum papers to analyze
 - `max_idea_generation_attempts` (int): Maximum attempts to generate passing idea
+- `target_conference` (str, optional): Target conference for idea generation
 
 #### Methods
 
@@ -133,6 +134,40 @@ reporter = Reporter()
 report = reporter.generate_markdown_report(idea, evaluation)
 filepath = reporter.save_report(idea, evaluation, output_dir="reports")
 ```
+
+### Idea Validation
+
+Validate user-provided research ideas using the same comprehensive evaluation framework.
+
+```python
+from src.evaluator import Evaluator
+from src.models import ResearchIdea
+
+evaluator = Evaluator(
+    provider="google",
+    model_name="gemini-3-flash-preview",
+    serpapi_key=os.getenv("SERPAPI_API_KEY"),
+    semanticscholar_key=os.getenv("SEMANTICSCHOLAR_API_KEY")
+)
+
+user_idea = ResearchIdea(
+    title="Your Research Idea Title",
+    abstract="Abstract of your idea...",
+    introduction="Introduction and background...",
+    method="Proposed methodology...",
+    expected_results="Expected outcomes...",
+    keywords=["keyword1", "keyword2"]
+)
+
+evaluation = evaluator.evaluate(user_idea)
+```
+
+**Key Features**:
+- Uses the same 7-point scoring rubric as generated ideas
+- Performs multi-source literature search
+- Provides detailed feedback and improvement suggestions
+- Suggests de-risking experiments
+- Generates comprehensive evaluation reports
 
 ### CodeGenerator
 
@@ -331,6 +366,17 @@ domains = [
     ResearchDomain.CLIMATE_SCIENCE,
     ResearchDomain.MATERIALS_SCIENCE,
     ResearchDomain.THEORETICAL_CS,
+    ResearchDomain.GRAPH_NEURAL_NETWORKS,
+    ResearchDomain.REINFORCEMENT_LEARNING,
+    ResearchDomain.FEDERATED_LEARNING,
+    ResearchDomain.CRYPTOGRAPHY,
+    ResearchDomain.OPTIMIZATION,
+    ResearchDomain.CAUSAL_INFERENCE,
+    ResearchDomain.TRANSFER_LEARNING,
+    ResearchDomain.EXPLAINABLE_AI,
+    ResearchDomain.MULTIMODAL_LEARNING,
+    ResearchDomain.GENERATIVE_MODELS,
+    ResearchDomain.EDGE_AI,
     ResearchDomain.CUSTOM
 ]
 ```
