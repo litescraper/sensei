@@ -32,7 +32,7 @@
 - **Groq**: Ultra-fast inference with Llama, Mixtral, Gemma
 - **Together AI**: Open-source models including Llama, Mistral, Gemma
 
-### Beautiful Web UI
+### Web UI
 - **Streamlit-based Interface**: Modern, intuitive web interface
 - **Real-time Progress Tracking**: Visual progress bars and status updates
 - **Configuration Panel**: Easy domain, provider, and model selection
