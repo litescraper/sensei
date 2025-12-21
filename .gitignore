@@ -56,6 +56,10 @@ benchmarks/results/*.json
 benchmarks/temp_reports/
 benchmarks/*.log
 
+# Generated projects (code generator output)
+generated_projects/
+experiments/results/
+
 # IDE
 .vscode/
 .idea/

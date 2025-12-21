@@ -11,6 +11,7 @@ from .autopsy import Autopsy
 from .synthesizer import Synthesizer
 from .evaluator import Evaluator
 from .refiner import Refiner
+from .code_generator import CodeGenerator
 from .reporter import Reporter
 from .models import (
     Paper,
@@ -28,6 +29,7 @@ __all__ = [
     "Evaluator",
     "Refiner",
     "Reporter",
+    "CodeGenerator",
     "Paper",
     "PaperAnalysis",
     "ResearchIdea",

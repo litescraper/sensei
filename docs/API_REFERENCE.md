@@ -134,6 +134,86 @@ report = reporter.generate_markdown_report(idea, evaluation)
 filepath = reporter.save_report(idea, evaluation, output_dir="reports")
 ```
 
+### CodeGenerator
+
+Generates complete research project code for approved ideas. Only runs when an idea passes the evaluation threshold (score >= 5/7).
+
+```python
+from src.code_generator import CodeGenerator
+
+code_generator = CodeGenerator(
+    provider="google",
+    model_name="gemini-3-flash-preview",
+    temperature=0.3  # Lower temperature for more deterministic code
+)
+
+# Generate project code (only if idea passed threshold)
+if evaluation.passed_threshold:
+    project_data = code_generator.generate_project_code(idea, evaluation)
+    project_path = code_generator.save_project(
+        project_data=project_data,
+        idea=idea,
+        output_dir="generated_projects"
+    )
+```
+
+**Key Features**:
+- Generates complete, working research project codebase
+- Creates model/architecture implementation (PyTorch/TensorFlow)
+- Generates training and evaluation scripts
+- Includes experiment infrastructure (train, evaluate, benchmark, ablation)
+- Creates configuration files (YAML)
+- Produces documentation (README, setup instructions)
+- Generates requirements.txt with dependencies
+- All code is production-ready and runnable
+
+**Generated Project Structure**:
+```
+project_name/
+├── src/
+│   ├── model.py          # Main model/architecture
+│   ├── trainer.py        # Training script
+│   ├── evaluator.py      # Evaluation script
+│   └── utils.py          # Utilities
+├── experiments/
+│   ├── train.py          # Training experiment
+│   ├── evaluate.py       # Evaluation experiment
+│   ├── benchmark.py      # Benchmark script
+│   └── ablation.py       # Ablation study
+├── configs/
+│   └── default.yaml      # Configuration
+├── requirements.txt      # Dependencies
+├── README.md            # Project documentation
+├── SETUP.md             # Setup instructions
+├── idea.json            # Original idea (for reference)
+└── evaluation.json      # Evaluation results (for reference)
+```
+
+#### Methods
+
+##### `generate_project_code(idea: ResearchIdea, evaluation: Evaluation, project_name: Optional[str] = None) -> Dict[str, Any]`
+
+Generates complete research project code.
+
+- **Args**:
+  - `idea` (ResearchIdea): Approved research idea
+  - `evaluation` (Evaluation): Evaluation result
+  - `project_name` (Optional[str]): Name for the project (default: sanitized idea title)
+- **Returns**:
+  - `Dict[str, Any]`: Dictionary with project structure, README, requirements, config, etc.
+
+##### `save_project(project_data: Dict[str, Any], idea: ResearchIdea, output_dir: str = "generated_projects", project_name: Optional[str] = None) -> str`
+
+Saves generated project to disk.
+
+- **Args**:
+  - `project_data` (Dict[str, Any]): Generated project data from LLM
+  - `idea` (ResearchIdea): Research idea
+  - `output_dir` (str): Base output directory
+  - `project_name` (Optional[str]): Project name (default: sanitized title)
+- **Returns**:
+  - `str`: Path to generated project directory
+
 ## Data Models
 
 ### Paper

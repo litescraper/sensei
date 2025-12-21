@@ -14,6 +14,7 @@
 - Evaluating ideas using a rigorous evaluation framework
 - **Iteratively refining ideas** using "Agents as a Loop and Judge" mechanism
 - Generating comprehensive research reports
+- **Generating complete research project code** (experiments, architecture, benchmarks, ablations) when ideas pass evaluation
 
 ## Key Features
 
@@ -91,6 +92,29 @@ python main.py \
     --output-dir reports
 ```
 
+### Running Experiments
+
+For research evaluation and paper experiments:
+
+```bash
+# Run all experiments
+python experiments/run_experiments.py \
+    --config experiments/configs/main.yaml \
+    --experiment all
+
+# Run only iteration experiments
+python experiments/run_experiments.py \
+    --config experiments/configs/main.yaml \
+    --experiment iteration
+
+# Quick test run (fewer runs)
+python experiments/run_experiments.py \
+    --config experiments/configs/quick.yaml \
+    --experiment iteration
+```
+
+See [Experiments Documentation](docs/EXPERIMENTS.md) for detailed instructions.
+
 ## Documentation
 
 Comprehensive documentation is available in the `docs/` folder:
@@ -100,6 +124,8 @@ Comprehensive documentation is available in the `docs/` folder:
 - **[Theory](docs/THEORY.md)**: Theoretical foundation and methodology
 - **[API Reference](docs/API_REFERENCE.md)**: Complete API documentation
 - **[Installation Guide](docs/INSTALLATION.md)**: Step-by-step installation instructions
+- **[Experiments](docs/EXPERIMENTS.md)**: Experimental infrastructure and evaluation
+- **[Reproducibility](docs/REPRODUCIBILITY.md)**: Guide for reproducing results
 
 ## Architecture
 

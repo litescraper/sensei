@@ -1,0 +1,20 @@
+# Main experiment configuration
+
+# Random seed for reproducibility (set to null for random seed)
+seed: 42
+
+# Output directory for results
+output_dir: "experiments/results"
+
+# Experiment settings
+domain: "AI_SAFETY"  # ResearchDomain name
+num_runs: 10  # Number of runs per experiment
+provider: "google"  # LLM provider
+model_name: null  # Specific model name (null = default for provider)
+refine_iterations: 2  # Number of refinement iterations
+max_papers: 10  # Maximum papers to analyze
+
+# Human evaluation settings
+human_eval_template: "experiments/human_eval_template.csv"
+human_eval_csv: "experiments/human_eval_template.csv"  # Fill this with human scores
+

@@ -86,6 +86,23 @@
 │ - Reports     │
 │ - Export      │
 └───────────────┘
+        │
+        ├─→ Passed Threshold? ──┐
+        │                        │
+        └─→ No ──────────────────┘
+        │
+        ▼
+┌───────────────┐
+│   Module 6    │
+│ Code Generator│
+│               │
+│ - Model Code  │
+│ - Training    │
+│ - Experiments │
+│ - Benchmarks  │
+│ - Ablations   │
+│ - Configs     │
+└───────────────┘
 ```
 
 ## Component Details
@@ -151,6 +168,20 @@
   - Template-based generation
   - Timestamped filenames
 
+### Module 6: Code Generator
+- **Purpose**: Generate complete research project code for approved ideas
+- **Input**: ResearchIdea + Evaluation (only if passed threshold)
+- **Output**: Complete project directory with all code files
+- **Key Features**:
+  - Generates model/architecture code
+  - Creates training and evaluation scripts
+  - Includes experiment infrastructure
+  - Generates benchmark and ablation code
+  - Creates configuration files
+  - Produces documentation (README, setup instructions)
+  - Generates requirements.txt
+  - All code is production-ready and runnable
+
 ## Data Flow
 
 ```
@@ -183,6 +214,10 @@ PaperAnalyses → Synthesizer → ResearchIdea (Initial)
     │
     ▼
 ResearchIdea (Best) + Evaluation → Reporter → Markdown Report
+    │
+    ├─→ Passed Threshold? ──→ Code Generator → Complete Project Code
+    │
+    └─→ Not Passed ──→ End
 ```
 
 ## LLM Provider Architecture

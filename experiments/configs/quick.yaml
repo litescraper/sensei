@@ -1,0 +1,11 @@
+# Quick experiment configuration (fewer runs for testing)
+
+seed: 42
+output_dir: "experiments/results"
+domain: "AI_SAFETY"
+num_runs: 3  # Fewer runs for quick testing
+provider: "google"
+model_name: null
+refine_iterations: 2
+max_papers: 5  # Fewer papers for speed
+

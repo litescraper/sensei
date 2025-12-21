@@ -84,9 +84,9 @@ class LLMProvider:
         if not api_key:
             raise ValueError("GOOGLE_API_KEY not found in environment")
         
-        # Use gemini-2.5-flash as default (free tier, more reliable)
+        # Use gemini-3-pro-preview as default (latest and most capable)
         return ChatGoogleGenerativeAI(
-            model=model_name or "gemini-2.5-flash",
+            model=model_name or "gemini-3-pro-preview",
             temperature=temperature,
             google_api_key=api_key
         )
@@ -156,8 +156,9 @@ class LLMProvider:
             raise ValueError("GROQ_API_KEY not found in environment")
         
         # Groq uses OpenAI-compatible API
+        # Default to llama-3.3-70b-versatile (latest and most capable)
         return ChatOpenAI(
-            model=model_name or "openai/gpt-oss-120b",
+            model=model_name or "llama-3.3-70b-versatile",
             temperature=temperature,
             api_key=api_key,
             base_url="https://api.groq.com/openai/v1"
@@ -211,11 +212,24 @@ AVAILABLE_MODELS = {
         "mistralai/mixtral-8x7b-instruct",
     ],
     "groq": [
-        "openai/gpt-oss-120b",
-        "llama-3.1-70b-versatile",
+        # Llama Models
+        "llama-3.3-70b-versatile",
         "llama-3.1-8b-instant",
-        "mixtral-8x7b-32768",
-        "gemma-7b-it",
+        "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "meta-llama/llama-4-scout-17b-16e-instruct",
+        # OpenAI OSS Models
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b",
+        # Qwen Models
+        "qwen/qwen3-32b",
+        # Groq Compound Models
+        "groq/compound",
+        "groq/compound-mini",
+        # Kimi Models
+        "moonshotai/kimi-k2-instruct",
+        "moonshotai/kimi-k2-instruct-0905",
+        # Other Models
+        "allam-2-7b",
     ],
     "together": [
         "meta-llama/Llama-3-70b-chat-hf",

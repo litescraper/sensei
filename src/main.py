@@ -17,6 +17,7 @@ from .synthesizer import Synthesizer
 from .evaluator import Evaluator
 from .refiner import Refiner
 from .reporter import Reporter
+from .code_generator import CodeGenerator
 from .config import ResearchDomain
 from .models import (
     Paper,
@@ -47,6 +48,7 @@ class Sensei:
     4. Evaluates ideas using the evaluation framework
     5. Iteratively refines ideas using "Agents as a Loop and Judge" mechanism
     6. Generates comprehensive research reports
+    7. Generates complete research project code (if idea passes threshold)
     """
     
     def __init__(
@@ -100,6 +102,7 @@ class Sensei:
         )
         self.refiner = Refiner(provider=provider, model_name=model_name)
         self.reporter = Reporter()
+        self.code_generator = CodeGenerator(provider=provider, model_name=model_name)
     
     def harvest_papers(self) -> List[Paper]:
         """Step 1: Harvest papers from arxiv."""
@@ -163,7 +166,7 @@ class Sensei:
             raise ValueError("No paper analyses available for idea generation")
         
         # Step 1: Generate initial idea
-        idea = self.synthesizer.generate_idea(analyses, attempt)
+        idea = self.synthesizer.generate_idea(analyses)
         logger.info(f"Generated initial idea: {idea.title}")
         
         best_idea = idea
@@ -298,11 +301,39 @@ class Sensei:
                 output_dir=output_dir
             )
             
+            # Step 6: Generate complete research project code (if idea passed threshold)
+            project_path = None
+            if best_evaluation.passed_threshold:
+                logger.info("=" * 80)
+                logger.info("MODULE 6: CODE GENERATOR - Generating complete research project")
+                logger.info("=" * 80)
+                
+                try:
+                    project_data = self.code_generator.generate_project_code(
+                        idea=best_idea,
+                        evaluation=best_evaluation
+                    )
+                    
+                    project_path = self.code_generator.save_project(
+                        project_data=project_data,
+                        idea=best_idea,
+                        output_dir=os.path.join(output_dir, "..", "generated_projects")
+                    )
+                    
+                    logger.info(f"Complete research project generated at: {project_path}")
+                    logger.info("Project includes: model code, training scripts, experiments, benchmarks, ablations")
+                    
+                except Exception as e:
+                    logger.error(f"Error generating project code: {e}", exc_info=True)
+                    logger.warning("Continuing without project code generation...")
+            
             logger.info("=" * 80)
             logger.info("PIPELINE COMPLETE")
             logger.info("=" * 80)
             logger.info(f"Report saved to: {report_path}")
             logger.info(f"Final Score: {best_evaluation.score.total_score}/7")
+            if project_path:
+                logger.info(f"Research project code saved to: {project_path}")
             
             return report_path
             
