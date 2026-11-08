@@ -37,17 +37,29 @@ class LiteraturePaper:
 
 
 class LiteratureSearcher:
-    
+    """
     Implements Step 0 of the evaluation protocol: Literature quick-scan (grounding)
     """
     
     def __init__(
         self,
         serpapi_key: Optional[str] = None,
-        semanticscholar_key: Optional[str] = None
+        semanticscholar_key: Optional[str] = None,
+        web_search_provider: Optional[str] = None,
+        litescrape_key: Optional[str] = None,
+        litescrape_base_url: Optional[str] = None
     ):
         self.serpapi_key = serpapi_key or os.getenv("SERPAPI_API_KEY")
         self.semanticscholar_key = semanticscholar_key or os.getenv("SEMANTICSCHOLAR_API_KEY")
+        self.web_search_provider = (
+            web_search_provider or os.getenv("WEB_SEARCH_PROVIDER", "serpapi")
+        ).lower()
+        if self.web_search_provider not in ("serpapi", "litescrape"):
+            raise ValueError("WEB_SEARCH_PROVIDER must be serpapi or litescrape")
+        self.litescrape_key = litescrape_key or os.getenv("LITESCRAPE_API_KEY")
+        self.litescrape_base_url = (
+            litescrape_base_url or os.getenv("LITESCRAPE_BASE_URL") or "https://api.litescrape.com"
+        ).rstrip("/")
         
         if self.semanticscholar_key:
             self.s2_client = SemanticScholar(api_key=self.semanticscholar_key)
@@ -164,8 +176,13 @@ class LiteratureSearcher:
     def search_openreview(self, query: str, max_results: int = 10) -> List[LiteraturePaper]:
         papers = []
         
-        if not self.serpapi_key:
-            logger.warning("SerpAPI key not available. Skipping OpenReview search.")
+        api_key = (
+            self.litescrape_key if self.web_search_provider == "litescrape" else self.serpapi_key
+        )
+        if not api_key:
+            logger.warning(
+                "%s key not available. Skipping OpenReview search.", self.web_search_provider
+            )
             return papers
         
         try:
@@ -173,16 +190,26 @@ class LiteratureSearcher:
             # Use Google search to find OpenReview papers
             search_query = f"{query} site:openreview.net"
             
-            params = {
-                "q": search_query,
-                "api_key": self.serpapi_key,
-                "engine": "google",
-                "num": max_results
-            }
-            
-            search = GoogleSearch(params)
-            results = search.get_dict()
-            organic_results = results.get("organic_results", [])
+            if self.web_search_provider == "litescrape":
+                response = requests.get(
+                    f"{self.litescrape_base_url}/api/google/search",
+                    headers={"Authorization": f"Bearer {api_key}"},
+                    params={"q": search_query, "num": max(1, min(max_results, 10))},
+                    timeout=30,
+                )
+                response.raise_for_status()
+                organic_results = response.json().get("organic_results", [])
+            else:
+                params = {
+                    "q": search_query,
+                    "api_key": self.serpapi_key,
+                    "engine": "google",
+                    "num": max_results
+                }
+
+                search = GoogleSearch(params)
+                results = search.get_dict()
+                organic_results = results.get("organic_results", [])
             
             for result in organic_results:
                 title = result.get("title", "")

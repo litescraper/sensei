@@ -210,6 +210,19 @@ SERPAPI_API_KEY=your_key  # For Google Scholar search
 SEMANTICSCHOLAR_API_KEY=your_key  # For Semantic Scholar API
 ```
 
+### OpenReview Web Search
+
+OpenReview discovery uses SerpAPI by default. To use the optional native Litescrape
+adapter, set `WEB_SEARCH_PROVIDER=litescrape` and `LITESCRAPE_API_KEY`.
+`LITESCRAPE_BASE_URL` defaults to `https://api.litescrape.com`. The adapter calls
+`GET /api/google/search` with Bearer authentication.
+
+This choice affects only the existing Google web query scoped to `site:openreview.net`.
+It returns titles, links and snippets, with up to 10 results per query. Google Scholar
+still uses `SERPAPI_API_KEY`; arXiv and Semantic Scholar are unchanged. Web search
+does not provide Scholar publication years or citation metadata. The existing CLI
+and UI read these environment variables when creating the literature searcher.
+
 ### Domain Configuration
 
 Domains are configured in `src/config.py`. To add a new domain:
